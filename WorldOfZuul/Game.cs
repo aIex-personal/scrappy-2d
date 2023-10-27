@@ -5,6 +5,9 @@
         private Room? currentRoom;
         private Room? previousRoom;
 
+        public static int difficulty = 0; //This variable will store the difficulty level
+                                          //Initalized with a 0, Easy = 1, Medium = 2, Hard = 3
+
         public Game()
         {
             CreateRooms();
@@ -115,8 +118,59 @@
 
         private static void PrintWelcome()
         {
-            Console.WriteLine("Welcome to the World of Zuul!");
-            Console.WriteLine("World of Zuul is a new, incredibly boring adventure game.");
+            Console.WriteLine("Welcome to THE WAY BACK HOME: A recycling adventure!");
+            Console.WriteLine();
+            Console.WriteLine("Press Space to continue");
+            Console.ReadKey();   //You can press any key and the program will go on
+            Console.Clear();
+            
+            //Selecting difficulty level
+            while(true) 
+            {
+                Console.WriteLine("Select your difficulty!");
+                Console.WriteLine("         _________");
+                Console.WriteLine("  Easy   OO");
+                Console.WriteLine("         ¯¯¯¯¯¯¯¯¯");
+                Console.WriteLine("         _________");
+                Console.WriteLine("  Medium OOOOO");
+                Console.WriteLine("         ¯¯¯¯¯¯¯¯¯");
+                Console.WriteLine("         _________");
+                Console.WriteLine("  Hard   OOOOOOOOO");
+                Console.WriteLine("         ¯¯¯¯¯¯¯¯¯");
+                Console.WriteLine("Difficulty level affects your health level, and the difficulty of the missions");
+                string? diff = Console.ReadLine();   //Question mark will prevent the variable to get a null value
+
+                //Setting the difficulty variable
+                if (diff?.ToLower() == "easy")  //.ToLower is needed, so the player can type with or without capital letters
+                {
+                    difficulty = 1;
+                    break;  //breaks/leaves the while cycle
+                }
+                else if (diff?.ToLower() == "medium")
+                {
+                    difficulty = 2;
+                    break;
+                }
+                else if (diff?.ToLower() == "hard")
+                {
+                    difficulty = 3;
+                    break;
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("Invalid Input, type 'EASY', 'MEDIUM', or 'HARD'!");
+                } //Will continue until the user types easy, medium or hard
+            }
+            Console.Clear();
+            Console.WriteLine("Let's start this adventure!");
+            Console.WriteLine();
+            Console.WriteLine("Press Space to start");
+            Console.ReadKey();
+            Console.Clear();
+            Console.WriteLine("Intro text.");
+            Console.Clear();
+            Console.ReadKey();
             PrintHelp();
             Console.WriteLine();
         }
