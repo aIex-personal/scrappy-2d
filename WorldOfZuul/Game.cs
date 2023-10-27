@@ -177,9 +177,6 @@
 
         private static void PrintHelp()
         {
-            Console.WriteLine("You are lost. You are alone. You wander");
-            Console.WriteLine("around the university.");
-            Console.WriteLine();
             Console.WriteLine("Navigate by typing 'north', 'south', 'east', or 'west'.");
             Console.WriteLine("Type 'look' for more details.");
             Console.WriteLine("Type 'back' to go to the previous room.");
