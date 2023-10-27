@@ -13,8 +13,6 @@
             CreateRooms();
         }
 
-        //Test commit
-        //Test commit2
         private void CreateRooms()
         {
   
@@ -170,7 +168,7 @@
             Console.Clear();
             Console.WriteLine("Intro text.");
             Console.Clear();
-            Console.ReadKey();
+            //Console.ReadKey();
             PrintHelp();
             Console.WriteLine();
         }
