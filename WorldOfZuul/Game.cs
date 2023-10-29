@@ -114,7 +114,7 @@
                 }
             }
 
-            Console.WriteLine("Thank you for playing World of Zuul!");
+            Console.WriteLine("Thank you for playing THE WAY BACK HOME: A recycling adventure!!");
         }
 
         private void Move(string direction)
@@ -143,15 +143,31 @@
             while(true) 
             {
                 Console.WriteLine("Select your difficulty!");
-                Console.WriteLine("         _________");
-                Console.WriteLine("  Easy   OO");
-                Console.WriteLine("         ¯¯¯¯¯¯¯¯¯");
-                Console.WriteLine("         _________");
-                Console.WriteLine("  Medium OOOOO");
-                Console.WriteLine("         ¯¯¯¯¯¯¯¯¯");
-                Console.WriteLine("         _________");
-                Console.WriteLine("  Hard   OOOOOOOOO");
-                Console.WriteLine("         ¯¯¯¯¯¯¯¯¯");
+                //Console.WriteLine("         _________");
+                //Console.WriteLine("  Easy   OO");
+                //Console.WriteLine("         ¯¯¯¯¯¯¯¯¯");
+                //Console.WriteLine("         _________");
+                //Console.WriteLine("  Medium OOOOO");
+                //Console.WriteLine("         ¯¯¯¯¯¯¯¯¯");
+                //Console.WriteLine("         _________");
+                //Console.WriteLine("  Hard   OOOOOOOOO");
+                //Console.WriteLine("         ¯¯¯¯¯¯¯¯¯");
+
+                Console.WriteLine(  );
+
+                Console.WriteLine("|=====================| ");
+                Console.WriteLine("|                     |");
+                Console.WriteLine("|        Easy         |");
+                Console.WriteLine("|  |===            |  |");
+                Console.WriteLine("|                     |");
+                Console.WriteLine("|       Medium        |");
+                Console.WriteLine("|  |=======        |  |");
+                Console.WriteLine("|                     |");
+                Console.WriteLine("|        Hard         |");
+                Console.WriteLine("|  |===============|  |");
+                Console.WriteLine("|                     |");
+                Console.WriteLine("|=====================| ");
+                Console.WriteLine();
                 Console.WriteLine("Difficulty level affects your health level, and the difficulty of the missions");
                 string? diff = Console.ReadLine();   //Question mark will prevent the variable to get a null value
 
