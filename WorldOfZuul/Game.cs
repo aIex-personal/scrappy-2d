@@ -8,17 +8,16 @@
         public static int difficulty = 0; //This variable will store the difficulty level
                                           //Initalized with a 0, Easy = 1, Medium = 2, Hard = 3
 
+        public static Player player;
+
         public Game()
         {
+            player = new Player();
             CreateRooms();
         }
 
         private void CreateRooms()
         {
-
-            
-
-
             //Creating the rooms, in the constructor there is the name of the room, and after that there is a 
             //description with the possible doors to open. 
             Room? outside = new("Outside", "You are standing outside of a recycling centre. To the north, there seems to be an entrance to the building.");
@@ -160,16 +159,19 @@
                 if (diff?.ToLower() == "easy")  //.ToLower is needed, so the player can type with or without capital letters
                 {
                     difficulty = 1;
+                    player.health = 10;
                     break;  //breaks/leaves the while cycle
                 }
                 else if (diff?.ToLower() == "medium")
                 {
                     difficulty = 2;
+                    player.health = 6;
                     break;
                 }
                 else if (diff?.ToLower() == "hard")
                 {
                     difficulty = 3;
+                    player.health = 3;
                     break;
                 }
                 else

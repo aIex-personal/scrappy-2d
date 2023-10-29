@@ -9,9 +9,9 @@ namespace WorldOfZuul
     public class Player
     {
         public int health { get; set; }
-        public Player(int health)
+        public Player()
         {
-                this.health = health;
+           
         }
     }
 }
