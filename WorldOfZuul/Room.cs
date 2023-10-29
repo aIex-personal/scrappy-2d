@@ -1,4 +1,6 @@
-﻿namespace WorldOfZuul
+﻿using System.Collections.Generic;
+
+namespace WorldOfZuul
 {
     public class Room
     {

@@ -1,4 +1,6 @@
-﻿namespace WorldOfZuul
+﻿using System;
+
+namespace WorldOfZuul
 {
     public class Game
     {
@@ -8,11 +10,11 @@
         public static int difficulty = 0; //This variable will store the difficulty level
                                           //Initalized with a 0, Easy = 1, Medium = 2, Hard = 3
 
-        public static Player player;
+        public static Player Scrappy;
 
         public Game()
         {
-            player = new Player();
+            Scrappy = new Player();
             CreateRooms();
         }
 
@@ -61,9 +63,34 @@
             bool continuePlaying = true;
             while (continuePlaying)
             {
+                
+                Console.WriteLine($"Health level: {Scrappy.health}");  //Added this so We can always see the
+                Console.WriteLine();                                  //player's health
                 Console.WriteLine(currentRoom?.ShortDescription);
-                Console.Write("> ");
 
+                Console.WriteLine("               |");
+                Console.WriteLine("               |");
+                Console.WriteLine("               |");
+                Console.WriteLine("       ================");
+                Console.WriteLine("       |       |      |");
+                Console.WriteLine("       |       |      |");
+                Console.WriteLine("       |       |      |");
+                Console.WriteLine("       |       |      |");
+                Console.WriteLine("=======================");
+                Console.WriteLine("       |       |      |");
+                Console.WriteLine("       |       |      |");
+                Console.WriteLine("       |       |      |");
+                Console.WriteLine("       |       |      |");
+                Console.WriteLine("       ================");
+                Console.WriteLine("               |");
+                Console.WriteLine("               |");
+                Console.WriteLine("               |");
+                string[,] matrix = new string[10, 10];
+                
+
+
+                Console.Write("> ");
+                
                 string? input = Console.ReadLine();
 
                 if (string.IsNullOrEmpty(input))
@@ -133,11 +160,26 @@
 
         private static void PrintWelcome()
         {
-            Console.WriteLine("Welcome to THE WAY BACK HOME: A recycling adventure!");
-            Console.WriteLine();
+            Console.SetWindowSize(175, 35);
+            
+            Console.WriteLine(@"
+
+                ████████╗██╗  ██╗███████╗    ██╗    ██╗ █████╗ ██╗   ██╗    ██████╗  █████╗  ██████╗██╗  ██╗    ██╗  ██╗ ██████╗ ███╗   ███╗███████╗                       
+                ╚══██╔══╝██║  ██║██╔════╝    ██║    ██║██╔══██╗╚██╗ ██╔╝    ██╔══██╗██╔══██╗██╔════╝██║ ██╔╝    ██║  ██║██╔═══██╗████╗ ████║██╔════╝██╗                    
+                   ██║   ███████║█████╗      ██║ █╗ ██║███████║ ╚████╔╝     ██████╔╝███████║██║     █████╔╝     ███████║██║   ██║██╔████╔██║█████╗  ╚═╝                    
+                   ██║   ██╔══██║██╔══╝      ██║███╗██║██╔══██║  ╚██╔╝      ██╔══██╗██╔══██║██║     ██╔═██╗     ██╔══██║██║   ██║██║╚██╔╝██║██╔══╝  ██╗                    
+                   ██║   ██║  ██║███████╗    ╚███╔███╔╝██║  ██║   ██║       ██████╔╝██║  ██║╚██████╗██║  ██╗    ██║  ██║╚██████╔╝██║ ╚═╝ ██║███████╗╚═╝                    
+                   ╚═╝   ╚═╝  ╚═╝╚══════╝     ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝       ╚═════╝ ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝    ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝                       
+     █████╗     ██████╗ ███████╗ ██████╗██╗   ██╗ ██████╗██╗     ██╗███╗   ██╗ ██████╗      █████╗ ██████╗ ██╗   ██╗███████╗███╗   ██╗████████╗██╗   ██╗██████╗ ███████╗██╗
+    ██╔══██╗    ██╔══██╗██╔════╝██╔════╝╚██╗ ██╔╝██╔════╝██║     ██║████╗  ██║██╔════╝     ██╔══██╗██╔══██╗██║   ██║██╔════╝████╗  ██║╚══██╔══╝██║   ██║██╔══██╗██╔════╝██║
+    ███████║    ██████╔╝█████╗  ██║      ╚████╔╝ ██║     ██║     ██║██╔██╗ ██║██║  ███╗    ███████║██║  ██║██║   ██║█████╗  ██╔██╗ ██║   ██║   ██║   ██║██████╔╝█████╗  ██║
+    ██╔══██║    ██╔══██╗██╔══╝  ██║       ╚██╔╝  ██║     ██║     ██║██║╚██╗██║██║   ██║    ██╔══██║██║  ██║╚██╗ ██╔╝██╔══╝  ██║╚██╗██║   ██║   ██║   ██║██╔══██╗██╔══╝  ╚═╝
+    ██║  ██║    ██║  ██║███████╗╚██████╗   ██║   ╚██████╗███████╗██║██║ ╚████║╚██████╔╝    ██║  ██║██████╔╝ ╚████╔╝ ███████╗██║ ╚████║   ██║   ╚██████╔╝██║  ██║███████╗██╗
+    ╚═╝  ╚═╝    ╚═╝  ╚═╝╚══════╝ ╚═════╝   ╚═╝    ╚═════╝╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝     ╚═╝  ╚═╝╚═════╝   ╚═══╝  ╚══════╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝
+");
             Console.WriteLine("Press Space to continue");
-            Console.ReadKey();   //You can press any key and the program will go on
-            Console.Clear();
+            while (Console.ReadKey(true).Key != ConsoleKey.Spacebar){ }  //Player can only proceed in the menu with spacebar
+            Console.Clear();                                           
             
             //Selecting difficulty level
             while(true) 
@@ -146,13 +188,13 @@
                 Console.WriteLine(  );
                 Console.WriteLine("|=====================| ");
                 Console.WriteLine("|                     |");
-                Console.WriteLine("|        Easy         |");
+                Console.WriteLine("|      <  Easy  >     |");
                 Console.WriteLine("|  |===            |  |");
                 Console.WriteLine("|                     |");
-                Console.WriteLine("|       Medium        |");
-                Console.WriteLine("|  |=======        |  |");
+                Console.WriteLine("|      < Medium >     |");
+                Console.WriteLine("|  |========       |  |");
                 Console.WriteLine("|                     |");
-                Console.WriteLine("|        Hard         |");
+                Console.WriteLine("|      <  Hard  >     |");
                 Console.WriteLine("|  |===============|  |");
                 Console.WriteLine("|                     |");
                 Console.WriteLine("|=====================| ");
@@ -164,19 +206,19 @@
                 if (diff?.ToLower() == "easy")  //.ToLower is needed, so the player can type with or without capital letters
                 {
                     difficulty = 1;
-                    player.health = 10;
+                    Scrappy.health = 10;
                     break;  //breaks/leaves the while cycle
                 }
                 else if (diff?.ToLower() == "medium")
                 {
                     difficulty = 2;
-                    player.health = 6;
+                    Scrappy.health = 6;
                     break;
                 }
                 else if (diff?.ToLower() == "hard")
                 {
                     difficulty = 3;
-                    player.health = 3;
+                    Scrappy.health = 3;
                     break;
                 }
                 else
