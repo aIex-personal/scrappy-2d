@@ -143,18 +143,7 @@
             while(true) 
             {
                 Console.WriteLine("Select your difficulty!");
-                //Console.WriteLine("         _________");
-                //Console.WriteLine("  Easy   OO");
-                //Console.WriteLine("         ¯¯¯¯¯¯¯¯¯");
-                //Console.WriteLine("         _________");
-                //Console.WriteLine("  Medium OOOOO");
-                //Console.WriteLine("         ¯¯¯¯¯¯¯¯¯");
-                //Console.WriteLine("         _________");
-                //Console.WriteLine("  Hard   OOOOOOOOO");
-                //Console.WriteLine("         ¯¯¯¯¯¯¯¯¯");
-
                 Console.WriteLine(  );
-
                 Console.WriteLine("|=====================| ");
                 Console.WriteLine("|                     |");
                 Console.WriteLine("|        Easy         |");
