@@ -179,8 +179,10 @@ namespace WorldOfZuul
 ");
             Console.WriteLine("Press Space to continue");
             while (Console.ReadKey(true).Key != ConsoleKey.Spacebar){ }  //Player can only proceed in the menu with spacebar
-            Console.Clear();                                           
-            
+            Console.Clear();
+
+
+
             //Selecting difficulty level
             while(true) 
             {
@@ -248,5 +250,11 @@ namespace WorldOfZuul
             Console.WriteLine("Type 'help' to print this message again.");
             Console.WriteLine("Type 'quit' to exit the game.");
         }
+
+        
+        
     }
 }
+
+
+
