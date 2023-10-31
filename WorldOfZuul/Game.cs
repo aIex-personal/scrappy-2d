@@ -68,23 +68,23 @@ namespace WorldOfZuul
                 Console.WriteLine();                                  //player's health
                 Console.WriteLine(currentRoom?.ShortDescription);
 
-                Console.WriteLine("               |");
-                Console.WriteLine("               |");
-                Console.WriteLine("               |");
-                Console.WriteLine("       ================");
-                Console.WriteLine("       |       |      |");
-                Console.WriteLine("       |       |      |");
-                Console.WriteLine("       |       |      |");
-                Console.WriteLine("       |       |      |");
-                Console.WriteLine("=======================");
-                Console.WriteLine("       |       |      |");
-                Console.WriteLine("       |       |      |");
-                Console.WriteLine("       |       |      |");
-                Console.WriteLine("       |       |      |");
-                Console.WriteLine("       ================");
-                Console.WriteLine("               |");
-                Console.WriteLine("               |");
-                Console.WriteLine("               |");
+                //Console.WriteLine("               |");
+                //Console.WriteLine("               |");
+                //Console.WriteLine("               |");
+                //Console.WriteLine("       ================");
+                //Console.WriteLine("       |       |      |");
+                //Console.WriteLine("       |       |      |");
+                //Console.WriteLine("       |       |      |");
+                //Console.WriteLine("       |       |      |");
+                //Console.WriteLine("=======================");
+                //Console.WriteLine("       |       |      |");
+                //Console.WriteLine("       |       |      |");
+                //Console.WriteLine("       |       |      |");
+                //Console.WriteLine("       |       |      |");
+                //Console.WriteLine("       ================");
+                //Console.WriteLine("               |");
+                //Console.WriteLine("               |");
+                //Console.WriteLine("               |");
                 string[,] matrix = new string[10, 10];
                 
 
@@ -186,7 +186,14 @@ namespace WorldOfZuul
             //Selecting difficulty level
             while(true) 
             {
-                Console.WriteLine("Select your difficulty!");
+                string prompt = "Select your difficulty!";
+                string[] options = { " Easy ", "Medium", " Hard " };
+                string[] difficulties = { "|   |===            |  |", "|   |========       |  |", "|   |===============|  |" };
+                Menu DifficultyMenu = new Menu(prompt, options, difficulties);
+                int selectedIndex = DifficultyMenu.Run();
+
+
+                Console.WriteLine(" Select your difficulty!");
                 Console.WriteLine(  );
                 Console.WriteLine("|=====================| ");
                 Console.WriteLine("|                     |");
