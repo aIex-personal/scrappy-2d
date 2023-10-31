@@ -189,7 +189,7 @@ namespace WorldOfZuul
                 string prompt = "Select your difficulty!";
                 string[] options = { " Easy ", "Medium", " Hard " };
                 string[] difficulties = { "|   |===            |  |", "|   |========       |  |", "|   |===============|  |" };
-                Menu DifficultyMenu = new Menu(prompt, options, difficulties);
+                Menu DifficultyMenu = new DifficultyMenu(prompt, options, difficulties);
                 int selectedIndex = DifficultyMenu.Run();
 
 
