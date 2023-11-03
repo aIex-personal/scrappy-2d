@@ -8,10 +8,17 @@ namespace WorldOfZuul
         public string LongDescription { get; private set;}
         public Dictionary<string, Room> Exits { get; private set; } = new();
 
+        private bool firstEnter;
+        public bool FirstEnter
+        {
+            get { return firstEnter; }
+        }
+
         public Room(string shortDesc, string longDesc)
         {
             ShortDescription = shortDesc;
             LongDescription = longDesc;
+            firstEnter = false;
         }
 
         public void SetExits(Room? north, Room? east, Room? south, Room? west)
