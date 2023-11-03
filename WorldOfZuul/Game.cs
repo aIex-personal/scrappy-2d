@@ -247,6 +247,7 @@ namespace WorldOfZuul
             //Console.ReadKey();
             PrintHelp();
             Console.WriteLine();
+            Console.WriteLine("Alex is cool");
         }
 
         private static void PrintHelp()
