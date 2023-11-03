@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks.Dataflow;
 
 namespace WorldOfZuul
 {
@@ -157,7 +158,6 @@ namespace WorldOfZuul
             }
         }
 
-
         private static void PrintWelcome()
         {
             Console.SetWindowSize(175, 35);
@@ -179,7 +179,7 @@ namespace WorldOfZuul
 ");
             Console.WriteLine("Press Space to continue");
             while (Console.ReadKey(true).Key != ConsoleKey.Spacebar){ }  //Player can only proceed in the menu with spacebar
-            Console.Clear();
+            
 
 
 
@@ -192,39 +192,23 @@ namespace WorldOfZuul
                 Menu DifficultyMenu = new DifficultyMenu(prompt, options, difficulties);
                 int selectedIndex = DifficultyMenu.Run();
 
+                string? diff = options[selectedIndex];   //Question mark will prevent the variable to get a null value
 
-                Console.WriteLine(" Select your difficulty!");
-                Console.WriteLine(  );
-                Console.WriteLine("|=====================| ");
-                Console.WriteLine("|                     |");
-                Console.WriteLine("|      <  Easy  >     |");
-                Console.WriteLine("|  |===            |  |");
-                Console.WriteLine("|                     |");
-                Console.WriteLine("|      < Medium >     |");
-                Console.WriteLine("|  |========       |  |");
-                Console.WriteLine("|                     |");
-                Console.WriteLine("|      <  Hard  >     |");
-                Console.WriteLine("|  |===============|  |");
-                Console.WriteLine("|                     |");
-                Console.WriteLine("|=====================| ");
-                Console.WriteLine();
-                Console.WriteLine("Difficulty level affects your health level, and the difficulty of the missions");
-                string? diff = Console.ReadLine();   //Question mark will prevent the variable to get a null value
-
+                #region setting diffculty level variable
                 //Setting the difficulty variable
-                if (diff?.ToLower() == "easy")  //.ToLower is needed, so the player can type with or without capital letters
+                if (diff == options[0])  //.ToLower is needed, so the player can type with or without capital letters
                 {
                     difficulty = 1;
                     Scrappy.health = 10;
                     break;  //breaks/leaves the while cycle
                 }
-                else if (diff?.ToLower() == "medium")
+                else if (diff == options[1])
                 {
                     difficulty = 2;
                     Scrappy.health = 6;
                     break;
                 }
-                else if (diff?.ToLower() == "hard")
+                else if (diff == options[2])
                 {
                     difficulty = 3;
                     Scrappy.health = 3;
@@ -235,6 +219,7 @@ namespace WorldOfZuul
                     Console.Clear();
                     Console.WriteLine("Invalid Input, type 'EASY', 'MEDIUM', or 'HARD'!");
                 } //Will continue until the user types easy, medium or hard
+                #endregion
             }
             Console.Clear();
             Console.WriteLine("Let's start this adventure!");

@@ -11,13 +11,15 @@ namespace WorldOfZuul
         private string[] Difficulties;
         private int middleX;
         private int middleY;
+
+
         public DifficultyMenu(string Prompt, string[] Options, string[] Difficulties) :base(Prompt,Options)
         {
             this.Prompt = Prompt;
             this.Options = Options;
             this.Difficulties = Difficulties;
             this.middleX = (Console.WindowWidth - 24) / 2;
-            this.middleY = Console.WindowHeight / 2 - 10;
+            this.middleY = Console.WindowHeight / 2;
             SelectedIndex = 0;
         }
 
@@ -62,7 +64,7 @@ namespace WorldOfZuul
             }
             Console.ResetColor();
             Write("|======================| ");
-            this.middleY = Console.WindowHeight / 2 - 10;
+            this.middleY = Console.WindowHeight / 2;
         }
         public override int Run()
         {

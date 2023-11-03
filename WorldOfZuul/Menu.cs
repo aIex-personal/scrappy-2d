@@ -57,7 +57,7 @@ namespace WorldOfZuul
             ConsoleKey keyPressed;
             do
             {
-                Console.Clear();
+                //Console.Clear();
                 DisplayOptions();
 
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
@@ -81,7 +81,7 @@ namespace WorldOfZuul
                 }
 
 
-            } while (keyPressed != ConsoleKey.Enter);
+            } while (keyPressed != ConsoleKey.Enter && keyPressed != ConsoleKey.Spacebar);
 
             return SelectedIndex;
         }
