@@ -27,6 +27,7 @@ namespace WorldOfZuul
         
         protected virtual void DisplayOptions()
         {
+            Console.Clear();
             Console.WriteLine(Prompt);
             for (int i = 0; i < Options.Length; i++)
             {
@@ -57,7 +58,6 @@ namespace WorldOfZuul
             ConsoleKey keyPressed;
             do
             {
-                //Console.Clear();
                 DisplayOptions();
 
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
