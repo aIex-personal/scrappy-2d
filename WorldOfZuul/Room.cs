@@ -6,6 +6,7 @@ namespace WorldOfZuul
     {
         public string ShortDescription { get; private set; }
         public string LongDescription { get; private set;}
+        public string FirstDescription { get; private set; }
         public Dictionary<string, Room> Exits { get; private set; } = new();
 
         private bool firstEnter;
@@ -13,12 +14,17 @@ namespace WorldOfZuul
         {
             get { return firstEnter; }
         }
+        public void SetFirstEnterFalse()
+        {
+            this.firstEnter = false;
+        }
 
-        public Room(string shortDesc, string longDesc)
+        public Room(string shortDesc, string longDesc, string firstDescription)
         {
             ShortDescription = shortDesc;
             LongDescription = longDesc;
-            firstEnter = false;
+            firstEnter = true;
+            FirstDescription = firstDescription;
         }
 
         public void SetExits(Room? north, Room? east, Room? south, Room? west)
