@@ -61,6 +61,8 @@ namespace WorldOfZuul
         {
             Parser parser = new();
             PrintWelcome();
+            PrintPrologue();
+            PrintHelp();
 
             bool continuePlaying = true;
             while (continuePlaying)
@@ -220,10 +222,44 @@ namespace WorldOfZuul
             //Console.WriteLine("Intro text.");
             //Console.Clear();
             //Console.ReadKey();
-            PrintHelp();
+
+            //PrintHelp();
             Console.WriteLine();
         }
+        private static void PrintPrologue()
+        {
 
+            string[] lines = new string[3];
+            lines[0] = "\t\t\t\t\t\t" + " In the far reaches of the galaxy, a determined alien named Scrappy" + "\r\n" +
+                       "\t\t\t\t\t\t" + "  embarked on a journey through space. Their home world was a dire " + "\r\n" +
+                       "\t\t\t\t\t\t" + " place, suffering from an ecological catastrophe. The air was thick " + "\r\n" +
+                       "\t\t\t\t\t\t" + "with pollution, and vast mountains of garbage littered the landscape. " + "\r\n" +
+                       "\t\t\t\t\t\t" + "  It was a world without recycling, and the consequences were dire." + "\r\n";
+            lines[1] = "\t\t\t\t\t\t" + "     Scrappy had constructed a spaceship from the remnants of their " + "\r\n" +
+                       "\t\t\t\t\t\t" + "       once-advanced civilization, launching it into the cosmos. " + "\r\n" +
+                       "\t\t\t\t\t\t" + "     As they traveled through the stars, their fuel gauge began to " + "\r\n" +
+                       "\t\t\t\t\t\t" + " flicker ominously, a reminder of the need for a new source of energy." + "\r\n";
+            lines[2] = "\t\t\t\t\t\t" + " Earth, a distant blue planet, came into view. Its vibrant surface" + "\r\n" +
+                       "\t\t\t\t\t\t" + "  hinted at abundant resources that might hold the key to saving " + "\r\n" +
+                       "\t\t\t\t\t\t" + "     Scrappy's world. Landing on Earth marked the start of an  " + "\r\n" +
+                       "\t\t\t\t\t\t" + "with pollution, and vast mountains of garbage littered the landscape. " + "\r\n" +
+                       "\t\t\t\t\t\t" + "  It was a world without recycling, and the consequences were dire." + "\r\n";
+            for (int i = 0; i < lines.Length; i++)
+            {
+                TypeLine(lines[i]);
+                Console.ReadKey();
+                Console.Clear();
+            }
+        }
+        private static void TypeLine(string line)
+        {
+            Console.SetCursorPosition(0,10);
+            for (int i = 0; i < line.Length; i++)
+            {
+                Console.Write(line[i]);
+                System.Threading.Thread.Sleep(1);
+            }
+        }
         private static void PrintHelp()
         {
             Console.WriteLine("Navigate by typing 'north', 'south', 'east', or 'west'.");
