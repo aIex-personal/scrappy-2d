@@ -24,8 +24,12 @@ namespace WorldOfZuul
         {
             //Creating the rooms, in the constructor there is the name of the room, and after that there is a 
             //description with the possible doors to open. 
-            Room? outside = new("Outside", "You are standing outside of a recycling centre. To the north, there seems to be an entrance to the building.","FirstEnterDescription");
-            Room? hall = new("Hall", "You find yourself in the hall. To the south is your exit from the building, and there are signs above the other doors. To the West, there seems to be a sorting room, to the North it says E-waste recycling, and to the East, the sign says Paper mill.", "FirstEnterDescription");
+            Room? outside = new("Outside", 
+                "You are standing outside of a recycling centre. To the north, there seems to be an entrance to the building.",
+                "FirstEnterDescription");
+            Room? hall = new("Hall", 
+                "You find yourself in the hall. To the south is your exit from the building, and there are signs above the other doors. To the West, there seems to be a sorting room, to the North it says E-waste recycling, and to the East, the sign says Paper mill.", 
+                "FirstEnterDescription");
             Room? sortingRoom = new("Sorting Room", "It seems that people in this room are separating garbages. They have different places to collect Paper, Plastic, Organic Junk and Metal. To the North, there is a door that says Upcycling Studio, and to the East there is the Hall", "FirstEnterDescription");
             Room? plasticRecycling = new("Plastic Recycling", "In this room people seem to know a lot about the recycling of plastic. To the North, there is a room called Paper Mill, and to the West there is the hall.", "FirstEnterDescription");
             Room? upcyclingStudio = new("Upcycling Studio", "In this room people are creating new things out of old, battle-worn things. The door to the West seems to be an exit to a Composting Garden, the sign on the door to the North says Ocean Cleanup, to the East there is Recycled Art Gallery, and to the South there is a Sorting Room.", "FirstEnterDescription");
@@ -254,6 +258,10 @@ namespace WorldOfZuul
                     Console.ReadKey();
                     Console.Clear();
                 }
+            }
+            else
+            {
+                Console.Clear();
             }
         }
         private static void TypeLine(string line)

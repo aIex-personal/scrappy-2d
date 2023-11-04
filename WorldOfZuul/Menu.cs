@@ -13,22 +13,32 @@ namespace WorldOfZuul
         protected int SelectedIndex;
         protected string[] Options;
         protected string Prompt;
-        
+
+
+        protected int middleX;
+        protected int middleY;
 
         public Menu(string Prompt, string[] Options)
         {
             this.Prompt = Prompt;
             this.Options = Options;
             SelectedIndex = 0;
+            this.middleX = (Console.WindowWidth - 24) / 2 + 5;
+            this.middleY = Console.WindowHeight / 2 - 10;
         }
-        
-        
-        
-        
+
+        protected void Write(string s)
+        {
+            Console.SetCursorPosition(middleX, middleY);
+            Console.WriteLine(s);
+            middleY++;
+        }
+
+
         protected virtual void DisplayOptions()
         {
             Console.Clear();
-            Console.WriteLine(Prompt);
+            Write(Prompt);
             for (int i = 0; i < Options.Length; i++)
             {
                 string currentOption = Options[i];
@@ -49,9 +59,10 @@ namespace WorldOfZuul
                     Console.BackgroundColor = ConsoleColor.Black;
                 }
 
-                Console.WriteLine($"{prefix} {currentOption} {suffix}");
+                Write($"{prefix} {currentOption} {suffix}");
             }
             Console.ResetColor();
+            this.middleY = Console.WindowHeight / 2 - 10;
         }
         public virtual int Run()
         {
