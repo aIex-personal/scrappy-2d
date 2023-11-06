@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Security;
+using System.Threading.Tasks.Dataflow;
 
 namespace WorldOfZuul
 {
@@ -11,10 +13,12 @@ namespace WorldOfZuul
                                           //Initalized with a 0, Easy = 1, Medium = 2, Hard = 3
 
         public static Player Scrappy;
+        private int clearCounter;
 
         public Game()
         {
             Scrappy = new Player();
+            this.clearCounter = 0;
             CreateRooms();
         }
 
@@ -27,28 +31,15 @@ namespace WorldOfZuul
                 "First Time at outside");
             Room? hall = new("Hall", 
                 @"
-You find yourself in the hall. To the south is your exit from the building, 
-and there are signs above the other doors. To the West, there seems to be a sorting room,
-to the North it says E-waste recycling, and to the East, the sign says Paper mill.", 
+    You find yourself in the hall. To the south is your exit from the building, 
+    and there are signs above the other doors. To the West, there seems to be a sorting room,
+    to the North it says E-waste recycling, and to the East, the sign says Paper mill.", 
                 "First time at the Hall");
-            Room? sortingRoom = new("Sorting Room", 
-                @"
-                It seems that people in this room are separating garbages. 
-They have different places to collect Paper, Plastic, 
-Organic Junk and Metal. To the North, there is a door that says Upcycling Studio, 
-and to the East there is the Hall",
+            Room? sortingRoom = new("Sorting Room", "It seems that people in this room are separating garbages. They have different places to collect Paper, Plastic, Organic Junk and Metal. To the North, there is a door that says Upcycling Studio, and to the East there is the Hall",
                 "First time at the sorting Room");
-            Room? plasticRecycling = new("Plastic Recycling", 
-                @"
-In this room people seem to know a lot about the recycling of plastic. 
-To the North, there is a room called Paper Mill, and to the West there is the hall.",
+            Room? plasticRecycling = new("Plastic Recycling", "In this room people seem to know a lot about the recycling of plastic. To the North, there is a room called Paper Mill, and to the West there is the hall.",
                 "First time at the PlasticRecyclingRoom");
-            Room? upcyclingStudio = new("Upcycling Studio", 
-                @"
-In this room people are creating new things out of old, 
-battle-worn things. The door to the West seems to be an exit to a Composting Garden, 
-the sign on the door to the North says Ocean Cleanup, to the East there is Recycled Art Gallery, 
-and to the South there is a Sorting Room.",
+            Room? upcyclingStudio = new("Upcycling Studio", "In this room people are creating new things out of old, battle-worn things. The door to the West seems to be an exit to a Composting Garden, the sign on the door to the North says Ocean Cleanup, to the East there is Recycled Art Gallery, and to the South there is a Sorting Room.",
                 "First time at the UpcyclingStudio");
             Room? compostingGarden = new("Composting Garden", "In this garden there are loads of used Organical stuff, like the skins of vegetables, the remains of fruits etc. The Garden is surrounded by hedge, so the only entrance is to the East, back to the Upcycling Studio.",
                 "First time at the CompostingGarden");
@@ -88,40 +79,30 @@ and to the South there is a Sorting Room.",
         {
             Parser parser = new();
             PrintWelcome();
+            PrintPrologue();
+            Console.WriteLine($"Scrappy's Health level: {Scrappy.health}");
+            Console.WriteLine();
+            PrintHelp();
 
             bool continuePlaying = true;
             while (continuePlaying)
             {
-                
-                Console.WriteLine($"Health level: {Scrappy.health}");  //Added this so We can always see the
-                Console.WriteLine();                                  //player's health
-                Console.WriteLine(currentRoom?.ShortDescription);
-
-                Console.WriteLine("               |");
-                Console.WriteLine("               |");
-                Console.WriteLine("               |");
-                Console.WriteLine("       ================");
-                Console.WriteLine("       |       |      |");
-                Console.WriteLine("       |       |      |");
-                Console.WriteLine("       |       |      |");
-                Console.WriteLine("       |       |      |");
-                Console.WriteLine("=======================");
-                Console.WriteLine("       |       |      |");
-                Console.WriteLine("       |       |      |");
-                Console.WriteLine("       |       |      |");
-                Console.WriteLine("       |       |      |");
-                Console.WriteLine("       ================");
-                Console.WriteLine("               |");
-                Console.WriteLine("               |");
-                Console.WriteLine("               |");
-                string[,] matrix = new string[10, 10];
-                
-
+                  //Added this so We can always see the
+                Console.WriteLine();                                              //player's health
+                if (currentRoom.FirstEnter)
+                {
+                    Console.WriteLine(currentRoom.FirstDescription);
+                    currentRoom.SetFirstEnterFalse();
+                }
+                else
+                {
+                    Console.WriteLine(currentRoom?.ShortDescription);
+                }
 
                 Console.Write("> ");
                 
                 string? input = Console.ReadLine();
-
+                
                 if (string.IsNullOrEmpty(input))
                 {
                     Console.WriteLine("Please enter a command.");
@@ -135,7 +116,20 @@ and to the South there is a Sorting Room.",
                     Console.WriteLine("I don't know that command.");
                     continue;
                 }
-
+                if (clearCounter == 2)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Scrappy's Health level: {Scrappy.health}");
+                    Console.WriteLine();
+                    PrintHelp();
+                    Console.WriteLine();
+                    clearCounter = 0;
+                }
+                else
+                {
+                    clearCounter++;
+                }
+                
                 switch(command.Name)
                 {
                     case "look":
@@ -163,7 +157,9 @@ and to the South there is a Sorting Room.",
                     case "help":
                         PrintHelp();
                         break;
-
+                    case "map":
+                        PrintMinimap();
+                        break;
                     default:
                         Console.WriteLine("I don't know what command.");
                         break;
@@ -186,7 +182,6 @@ and to the South there is a Sorting Room.",
             }
         }
 
-
         private static void PrintWelcome()
         {
             Console.SetWindowSize(175, 35);
@@ -208,45 +203,36 @@ and to the South there is a Sorting Room.",
 ");
             Console.WriteLine("Press Space to continue");
             while (Console.ReadKey(true).Key != ConsoleKey.Spacebar){ }  //Player can only proceed in the menu with spacebar
-            Console.Clear();
+            
 
 
 
             //Selecting difficulty level
             while(true) 
             {
-                Console.WriteLine("Select your difficulty!");
-                Console.WriteLine(  );
-                Console.WriteLine("|=====================| ");
-                Console.WriteLine("|                     |");
-                Console.WriteLine("|      <  Easy  >     |");
-                Console.WriteLine("|  |===            |  |");
-                Console.WriteLine("|                     |");
-                Console.WriteLine("|      < Medium >     |");
-                Console.WriteLine("|  |========       |  |");
-                Console.WriteLine("|                     |");
-                Console.WriteLine("|      <  Hard  >     |");
-                Console.WriteLine("|  |===============|  |");
-                Console.WriteLine("|                     |");
-                Console.WriteLine("|=====================| ");
-                Console.WriteLine();
-                Console.WriteLine("Difficulty level affects your health level, and the difficulty of the missions");
-                string? diff = Console.ReadLine();   //Question mark will prevent the variable to get a null value
+                string prompt = "Select your difficulty!";
+                string[] options = { " Easy ", "Medium", " Hard " };
+                string[] difficulties = { "|   |===            |  |", "|   |========       |  |", "|   |===============|  |" };
+                Menu DifficultyMenu = new DifficultyMenu(prompt, options, difficulties);
+                int selectedIndex = DifficultyMenu.Run();
 
+                string? diff = options[selectedIndex];   //Question mark will prevent the variable to get a null value
+
+                #region setting diffculty level variable
                 //Setting the difficulty variable
-                if (diff?.ToLower() == "easy")  //.ToLower is needed, so the player can type with or without capital letters
+                if (diff == options[0])  //.ToLower is needed, so the player can type with or without capital letters
                 {
                     difficulty = 1;
                     Scrappy.health = 10;
                     break;  //breaks/leaves the while cycle
                 }
-                else if (diff?.ToLower() == "medium")
+                else if (diff == options[1])
                 {
                     difficulty = 2;
                     Scrappy.health = 6;
                     break;
                 }
-                else if (diff?.ToLower() == "hard")
+                else if (diff == options[2])
                 {
                     difficulty = 3;
                     Scrappy.health = 3;
@@ -257,31 +243,110 @@ and to the South there is a Sorting Room.",
                     Console.Clear();
                     Console.WriteLine("Invalid Input, type 'EASY', 'MEDIUM', or 'HARD'!");
                 } //Will continue until the user types easy, medium or hard
+                #endregion
             }
             Console.Clear();
-            Console.WriteLine("Let's start this adventure!");
-            Console.WriteLine();
-            Console.WriteLine("Press Space to start");
-            Console.ReadKey();
-            Console.Clear();
-            Console.WriteLine("Intro text.");
-            Console.Clear();
+            //Console.WriteLine("Let's start this adventure!");
+            //Console.WriteLine();
+            //Console.WriteLine("Press Space to start");
             //Console.ReadKey();
-            PrintHelp();
+            //Console.Clear();
+            //Console.WriteLine("Intro text.");
+            //Console.Clear();
+            //Console.ReadKey();
+
+            //PrintHelp();
             Console.WriteLine();
         }
-
+        private static void PrintPrologue()
+        {
+            Menu menu = new Menu("Prologue",new string[] {"Play", "Skip"});
+            int selectedIndex = menu.Run();
+            if (selectedIndex == 0)
+            {
+                Console.Clear();
+                string[] lines = new string[3];
+                lines[0] = "\t\t\t\t\t\t" + " In the far reaches of the galaxy, a determined alien named Scrappy" + "\r\n" +
+                           "\t\t\t\t\t\t" + "  embarked on a journey through space. Their home world was a dire " + "\r\n" +
+                           "\t\t\t\t\t\t" + " place, suffering from an ecological catastrophe. The air was thick " + "\r\n" +
+                           "\t\t\t\t\t\t" + "with pollution, and vast mountains of garbage littered the landscape. " + "\r\n" +
+                           "\t\t\t\t\t\t" + "  It was a world without recycling, and the consequences were dire." + "\r\n";
+                lines[1] = "\t\t\t\t\t\t" + "     Scrappy had constructed a spaceship from the remnants of their " + "\r\n" +
+                           "\t\t\t\t\t\t" + "       once-advanced civilization, launching it into the cosmos. " + "\r\n" +
+                           "\t\t\t\t\t\t" + "     As they traveled through the stars, their fuel gauge began to " + "\r\n" +
+                           "\t\t\t\t\t\t" + " flicker ominously, a reminder of the need for a new source of energy." + "\r\n";
+                lines[2] = "\t\t\t\t\t\t" + " Earth, a distant blue planet, came into view. Its vibrant surface" + "\r\n" +
+                           "\t\t\t\t\t\t" + "  hinted at abundant resources that might hold the key to saving " + "\r\n" +
+                           "\t\t\t\t\t\t" + "     Scrappy's world. Landing on Earth marked the start of an  " + "\r\n" +
+                           "\t\t\t\t\t\t" + "with pollution, and vast mountains of garbage littered the landscape. " + "\r\n" +
+                           "\t\t\t\t\t\t" + "  It was a world without recycling, and the consequences were dire." + "\r\n";
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    TypeLine(lines[i]);
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
+            else
+            {
+                Console.Clear();
+            }
+        }
+        private static void TypeLine(string line)
+        {
+            Console.SetCursorPosition(0,10);
+            for (int i = 0; i < line.Length; i++)
+            {
+                Console.Write(line[i]);
+                System.Threading.Thread.Sleep(1);
+            }
+        }
         private static void PrintHelp()
         {
             Console.WriteLine("Navigate by typing 'north', 'south', 'east', or 'west'.");
             Console.WriteLine("Type 'look' for more details.");
             Console.WriteLine("Type 'back' to go to the previous room.");
             Console.WriteLine("Type 'help' to print this message again.");
+            Console.WriteLine("Type 'map' to print the minimap");
             Console.WriteLine("Type 'quit' to exit the game.");
         }
+        private static void PrintMinimap()
+        {
+            
+            Console.Clear();
+            Console.WriteLine("                                                |");
+            Console.WriteLine("                                                |");
+            Console.WriteLine("                                                |");
+            Console.WriteLine("                     =======================================================");
+            Console.WriteLine("                     |                          |                          |");
+            Console.WriteLine("                     |                          |                          |");
+            Console.WriteLine("                     |                          |                          |");
+            Console.WriteLine("                     |                          |                          |");
+            Console.WriteLine("                     |                          |                          |");
+            Console.WriteLine("                     |                          |                          |");
+            Console.WriteLine("                     |                          |                          |");
+            Console.WriteLine("                     |                          |                          |");
+            Console.WriteLine("       =====================================================================");
+            Console.WriteLine("                     |                          |                          |");
+            Console.WriteLine("                     |                          |                          |");
+            Console.WriteLine("                     |                          |                          |");
+            Console.WriteLine("                     |                          |                          |");
+            Console.WriteLine("                     |                          |                          |");
+            Console.WriteLine("                     |                          |                          |");
+            Console.WriteLine("                     |                          |                          |");
+            Console.WriteLine("                     |                          |                          |");
+            Console.WriteLine("                     =======================================================");
+            Console.WriteLine("                                                |");
+            Console.WriteLine("                                                |");
+            Console.WriteLine("                                                |");
+            Console.WriteLine();
+            Console.WriteLine("Press any key to return");
+            Console.ReadKey();
+            Console.Clear();
+            PrintHelp();
+        }
 
-        
-        
+
     }
 }
 
