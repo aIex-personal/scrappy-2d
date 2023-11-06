@@ -8,10 +8,16 @@ namespace WorldOfZuul
 {
     public class Player
     {
-        public int health { get; set; }
+        private int health;
+        public int GetHealth()
+        { return health; }
+        public void SetHealth(int value)
+        {
+            this.health = value;
+        }
         public Player()
         {
-           
+           health = -1;
         }
     }
 }

@@ -80,15 +80,15 @@ namespace WorldOfZuul
             Parser parser = new();
             PrintWelcome();
             PrintPrologue();
-            Console.WriteLine($"Scrappy's Health level: {Scrappy.health}");
+            Console.WriteLine($"Scrappy's Health level: {Scrappy.GetHealth}");
             Console.WriteLine();
             PrintHelp();
 
             bool continuePlaying = true;
             while (continuePlaying)
             {
-                  //Added this so We can always see the
-                Console.WriteLine();                                              //player's health
+                 
+                Console.WriteLine();                                             
                 if (currentRoom.FirstEnter)
                 {
                     Console.WriteLine(currentRoom.FirstDescription);
@@ -119,7 +119,7 @@ namespace WorldOfZuul
                 if (clearCounter == 2)
                 {
                     Console.Clear();
-                    Console.WriteLine($"Scrappy's Health level: {Scrappy.health}");
+                    Console.WriteLine($"Scrappy's Health level: {Scrappy.GetHealth}");
                     Console.WriteLine();
                     PrintHelp();
                     Console.WriteLine();
@@ -223,19 +223,19 @@ namespace WorldOfZuul
                 if (diff == options[0])  //.ToLower is needed, so the player can type with or without capital letters
                 {
                     difficulty = 1;
-                    Scrappy.health = 10;
+                    Scrappy.SetHealth(10);
                     break;  //breaks/leaves the while cycle
                 }
                 else if (diff == options[1])
                 {
                     difficulty = 2;
-                    Scrappy.health = 6;
+                    Scrappy.SetHealth(6);
                     break;
                 }
                 else if (diff == options[2])
                 {
                     difficulty = 3;
-                    Scrappy.health = 3;
+                    Scrappy.SetHealth(3);
                     break;
                 }
                 else
