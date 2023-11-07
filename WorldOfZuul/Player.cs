@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace WorldOfZuul
     public class Player
     {
         private int health;
+        public Inventory inventory;
         public int GetHealth()
         { return health; }
         public void SetHealth(int value)
@@ -17,7 +19,8 @@ namespace WorldOfZuul
         }
         public Player()
         {
-           health = -1;
+            health = -1;
+            inventory = new Inventory();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleClient;
+using System;
 using System.Security;
 using System.Threading.Tasks.Dataflow;
 
@@ -53,7 +54,7 @@ namespace WorldOfZuul
                 "First time at the recycledArtGallery");
             Room? plantingTrees = new("Planting Trees", "People here are looking for the best way to plant more and more trees all around the world. To the South there is a Paper Mill and to the West there is a Recycled Art Gallery.",
                 "First time at the plantingTreesRoom");
-            Room? mysteryRoom = new("Final Mission Room", "WOW", "First time at the mysteryRoom");
+            FinalRoom? mysteryRoom = new("Final Mission Room", "WOW", "First time at the mysteryRoom");
 
             //north, east, south, west
             //Setting the relations between rooms. 
