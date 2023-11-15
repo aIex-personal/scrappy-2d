@@ -19,7 +19,7 @@ namespace WorldOfZuul
             this.firstEnter = false;
         }
 
-        public Room(string shortDesc, string longDesc, string firstDescription)
+        public Room(string shortDesc,  string firstDescription , string longDesc)
         {
             ShortDescription = shortDesc;
             LongDescription = longDesc;

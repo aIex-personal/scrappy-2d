@@ -13,10 +13,11 @@ namespace ConsoleClient
         {
             items = new List<string>();
         }
-        //public List<string> ReadAll()
-        //{
-        //    return items;
-        //}
+        public List<string> ReadAll()
+        {
+
+            return items;
+        }
         public void ReadAllConsole()
         {
             foreach (var item in items) { Console.WriteLine("item"); }
