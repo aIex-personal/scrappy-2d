@@ -25,6 +25,8 @@ namespace WorldOfZuul
         {
             Console.Clear();
             Console.WriteLine(Prompt);
+            Console.WriteLine(" ");
+            Console.WriteLine("|======================|");
             for (int i = 0; i < Options.Length; i++)
             {
                 string currentOption = Options[i];
@@ -44,10 +46,12 @@ namespace WorldOfZuul
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.BackgroundColor = ConsoleColor.Black;
                 }
-
-                Console.WriteLine($"{prefix} {currentOption} {suffix}");
+                Console.WriteLine($"|    {prefix} {currentOption} {suffix}      |");
+                Console.ResetColor();
             }
             Console.ResetColor();
+            Console.WriteLine("|======================|");
+            Console.WriteLine();
         }
         public virtual int Run()
         {

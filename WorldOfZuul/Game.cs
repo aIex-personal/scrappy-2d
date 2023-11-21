@@ -15,12 +15,12 @@ namespace WorldOfZuul
                                           //Initalized with a 0, Easy = 1, Medium = 2, Hard = 3
 
         public static Player Scrappy;
-        private int clearCounter;
+        //private int clearCounter;
 
         public Game()
         {
             Scrappy = new Player();
-            this.clearCounter = 0;
+            //this.clearCounter = 0;
             CreateRooms();
         }
 
@@ -116,20 +116,23 @@ a recycling room, to the West there is the composting room, and outside is to th
                 Console.WriteLine();                                             
                 if (currentRoom.FirstEnter)
                 {
-                    Console.WriteLine(currentRoom.FirstDescription);
+                    TypeLine(currentRoom.FirstDescription);
                     currentRoom.SetFirstEnterFalse();
+                    Console.ReadKey();
                 }
                 else
                 {
-                    Console.WriteLine(currentRoom?.ShortDescription);
+                    TypeLine(currentRoom?.ShortDescription);
+                    Console.ReadKey();
                 }
 
                 Console.Write("> ");
 
-                string[] commands = new string[] { "NORTH", "EAST", "SOUTH", "WEST", 
-                    "LOOK", "BACK", "QUIT", "HELP", "MAP" };
+                string[] commands = new string[] { "NORTH ", "EAST  ", "SOUTH ", "WEST  ",
+                    "LOOK  ", "BACK  ", "QUIT  ", "HELP  ", "MAP   " };
 
                 MenuPlain commandMenu = new MenuPlain(
+                    "\r\n " +
                     "Navigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
                     "\r\nChoose LOOK for more details"+
                     "\r\nChoose BACK to go to the previous room"+
@@ -145,7 +148,7 @@ a recycling room, to the West there is the composting room, and outside is to th
                 
                 if (string.IsNullOrEmpty(input))
                 {
-                    Console.WriteLine("Please enter a command.");
+                    TypeLine("Please enter a command.");
                     continue;
                 }
 
@@ -153,33 +156,20 @@ a recycling room, to the West there is the composting room, and outside is to th
 
                 if (command == null)
                 {
-                    Console.WriteLine("I don't know that command.");
+                    TypeLine("I don't know that command.");
                     continue;
                 }
-                if (clearCounter == 2)
-                {
-                    Console.Clear();
-                    Console.WriteLine($"Scrappy's Health level: {Scrappy.GetHealth()}");
-                    Console.WriteLine();
-                    PrintHelp();
-                    Console.WriteLine();
-                    clearCounter = 0;
-                }
-                else
-                {
-                    clearCounter++;    //Clears the Console after 3 commands
-                }
-                
                 switch(command.Name)
                 {
                     case "look":
-                        Console.WriteLine(currentRoom?.LongDescription);
+                        TypeLine(currentRoom?.LongDescription);
                         break;
 
                     case "back":
                         if (previousRoom == null)
                         {
-                            Console.WriteLine("You can't go back from here!");
+                            TypeLine("You can't go back from here!");
+                            Console.ReadKey();
                         }
                         else
                             currentRoom = previousRoom;
@@ -198,7 +188,7 @@ a recycling room, to the West there is the composting room, and outside is to th
                             }
                             else
                             {
-                                Console.WriteLine("You don't have all the items to enter the Room!");
+                                TypeLine("You don't have all the items to enter the Room!");
                                 Console.ReadKey();
                             }
                         }
@@ -220,13 +210,13 @@ a recycling room, to the West there is the composting room, and outside is to th
                         PrintMinimap();
                         break;
                     default:
-                        Console.WriteLine("I don't know what command.");
-
+                        TypeLine("I don't know what command.");
+                        Console.ReadKey();
                         break;
                 }
             }
 
-            Console.WriteLine("Thank you for playing THE WAY BACK HOME: A recycling adventure!!");
+            TypeLine("Thank you for playing THE WAY BACK HOME: A recycling adventure!!");
         }
 
         private void Move(string direction)
@@ -238,7 +228,8 @@ a recycling room, to the West there is the composting room, and outside is to th
             }
             else
             {
-                Console.WriteLine($"You can't go {direction}!");
+                TypeLine($"You can't go {direction}!");
+                Console.ReadKey();
             }
         }
 
@@ -261,6 +252,7 @@ a recycling room, to the West there is the composting room, and outside is to th
     ██║  ██║    ██║  ██║███████╗╚██████╗   ██║   ╚██████╗███████╗██║██║ ╚████║╚██████╔╝    ██║  ██║██████╔╝ ╚████╔╝ ███████╗██║ ╚████║   ██║   ╚██████╔╝██║  ██║███████╗██╗
     ╚═╝  ╚═╝    ╚═╝  ╚═╝╚══════╝ ╚═════╝   ╚═╝    ╚═════╝╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝     ╚═╝  ╚═╝╚═════╝   ╚═══╝  ╚══════╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝
 ");
+            Console.WriteLine(  );
             Console.WriteLine("Press Space to continue");
             while (Console.ReadKey(true).Key != ConsoleKey.Spacebar){ }  //Player can only proceed in the menu with spacebar
             
@@ -346,7 +338,7 @@ a recycling room, to the West there is the composting room, and outside is to th
                            "\t\t\t\t\t\t" + "       interstellar mission filled with hope and discovery.";
                 for (int i = 0; i < lines.Length; i++)
                 {
-                    TypeLine(lines[i]);
+                    TypeLinePrologue(lines[i]);
                     Console.ReadKey();
                     Console.Clear();
                 }
@@ -356,9 +348,17 @@ a recycling room, to the West there is the composting room, and outside is to th
                 Console.Clear();
             }
         }
-        private static void TypeLine(string line)
+        private static void TypeLinePrologue(string line)
         {
             Console.SetCursorPosition(0,10);
+            for (int i = 0; i < line.Length; i++)
+            {
+                Console.Write(line[i]);
+                System.Threading.Thread.Sleep(1);
+            }
+        }
+        private static void TypeLine(string line)
+        {
             for (int i = 0; i < line.Length; i++)
             {
                 Console.Write(line[i]);
@@ -406,9 +406,6 @@ a recycling room, to the West there is the composting room, and outside is to th
             Console.WriteLine("                                                |");
             Console.WriteLine();
             Console.WriteLine("Press any key to return");
-            Console.ReadKey();
-            Console.Clear();
-            PrintHelp();
         }
 
 
