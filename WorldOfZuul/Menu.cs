@@ -14,7 +14,6 @@ namespace WorldOfZuul
         protected string[] Options;
         protected string Prompt;
 
-
         protected int middleX;
         protected int middleY;
 
@@ -37,7 +36,7 @@ namespace WorldOfZuul
 
         protected virtual void DisplayOptions()
         {
-            Console.Clear();
+            //Console.Clear();
             Write(Prompt);
             for (int i = 0; i < Options.Length; i++)
             {

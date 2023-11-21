@@ -25,6 +25,7 @@ namespace WorldOfZuul
 
         private void CreateRooms()
         {
+            #region oldCode
             //Creating the rooms, in the constructor there is the name of the room, and after that there is a 
             //description with the possible doors to open. 
             //        Room? outside = new("Outside", 
@@ -73,16 +74,16 @@ namespace WorldOfZuul
 
             //        //Starting  
             //        currentRoom = outside;
-
+            #endregion
 
             Room outside = new("Outside", @"First time of Scrappy looking around outside the Recycling Centre, his ship is broken.
-                                           There is a door to the North, the sign says Hall.",
-                                           @"Visiting outside, The ship still needs to be repaired, to the North there is the Hall");
+There is a door to the North, the sign says Hall.",
+@"Visiting outside, The ship still needs to be repaired, to the North there is the Hall");
             Room hall = new("Hall", @"First time of Scrappy is inside of the Recycling Centre, there is a kind robot.
-                                           There is a door to the North, the sign doesn't say anything.
-                                           To the West, there is a composting centre, to the East there is a recycling room",
+There is a door to the North, the sign doesn't say anything.
+To the West, there is a composting centre, to the East there is a recycling room",
                                             @"You are in the hall, to the North there is a mysterious room, to the East there is 
-                                             a recycling room, to the West there is the composting room, and outside is to the South. ");
+a recycling room, to the West there is the composting room, and outside is to the South. ");
             Room compost = new("Composting Garden", @"First Time Scrapp at composting garden. East: Hall",
                                            @"Composting hall. East: Hall");
             Room recyclingRoom = new("Recycling Room", @"First Time at Recycling Room. West: Hall",
@@ -115,6 +116,7 @@ namespace WorldOfZuul
                 if (currentRoom.FirstEnter)
                 {
                     Console.WriteLine(currentRoom.FirstDescription);
+                    Console.ReadKey(); //+++++++++
                     currentRoom.SetFirstEnterFalse();
                 }
                 else
@@ -123,8 +125,13 @@ namespace WorldOfZuul
                 }
 
                 Console.Write("> ");
-                
-                string? input = Console.ReadLine();
+
+                string[] commands = new string[] { "north", "east", "south", "west", "look", "back", "quit", "help", "map" };
+                Menu commandMenu = new Menu("Choose a command", commands);
+                int commandIndex = commandMenu.Run();
+
+                string? input = commands[commandIndex];
+                //string? input = Console.ReadLine();
                 
                 if (string.IsNullOrEmpty(input))
                 {
@@ -142,7 +149,7 @@ namespace WorldOfZuul
                 if (clearCounter == 2)
                 {
                     Console.Clear();
-                    Console.WriteLine($"Scrappy's Health level: {Scrappy.GetHealth}");
+                    Console.WriteLine($"Scrappy's Health level: {Scrappy.GetHealth()}");
                     Console.WriteLine();
                     PrintHelp();
                     Console.WriteLine();
@@ -157,11 +164,16 @@ namespace WorldOfZuul
                 {
                     case "look":
                         Console.WriteLine(currentRoom?.LongDescription);
+
+                        Console.ReadKey(); //+++++++++
                         break;
 
                     case "back":
                         if (previousRoom == null)
+                        {
                             Console.WriteLine("You can't go back from here!");
+                            Console.ReadKey(); //+++++++++
+                        }
                         else
                             currentRoom = previousRoom;
                         break;
@@ -202,6 +214,7 @@ namespace WorldOfZuul
                         break;
                     default:
                         Console.WriteLine("I don't know what command.");
+
                         break;
                 }
             }
