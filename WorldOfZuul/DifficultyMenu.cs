@@ -9,10 +9,6 @@ namespace WorldOfZuul
     public class DifficultyMenu : Menu
     {
         private string[] Difficulties;
-        //private int middleX;
-        //private int middleY;
-
-
         public DifficultyMenu(string Prompt, string[] Options, string[] Difficulties) :base(Prompt,Options)
         {
             this.Prompt = Prompt;
@@ -22,13 +18,6 @@ namespace WorldOfZuul
             this.middleY = Console.WindowHeight / 2;
             SelectedIndex = 0;
         }
-
-        //private void Write(string s)
-        //{
-        //    Console.SetCursorPosition(middleX, middleY);
-        //    Console.WriteLine(s);
-        //    middleY++;
-        //}
 
         protected override void DisplayOptions()
         {

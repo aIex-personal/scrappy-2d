@@ -8,36 +8,23 @@ using System.Threading.Tasks;
 
 namespace WorldOfZuul
 {
-    public class Menu
+    public class MenuPlain
     {
         protected int SelectedIndex;
         protected string[] Options;
         protected string Prompt;
 
-        protected int middleX;
-        protected int middleY;
-
-        public Menu(string Prompt, string[] Options)
+        public MenuPlain(string Prompt, string[] Options)
         {
             this.Prompt = Prompt;
             this.Options = Options;
             SelectedIndex = 0;
-            this.middleX = (Console.WindowWidth - 24) / 2 +20;
-            this.middleY = Console.WindowHeight / 2 - 10;
         }
-
-        protected void Write(string s)
-        {
-            Console.SetCursorPosition(middleX, middleY);
-            Console.WriteLine(s);
-            middleY++;
-        }
-
 
         protected virtual void DisplayOptions()
         {
-            //Console.Clear();
-            Write(Prompt);
+            Console.Clear();
+            Console.WriteLine(Prompt);
             for (int i = 0; i < Options.Length; i++)
             {
                 string currentOption = Options[i];
@@ -58,10 +45,9 @@ namespace WorldOfZuul
                     Console.BackgroundColor = ConsoleColor.Black;
                 }
 
-                Write($"{prefix} {currentOption} {suffix}");
+                Console.WriteLine($"{prefix} {currentOption} {suffix}");
             }
             Console.ResetColor();
-            this.middleY = Console.WindowHeight / 2 - 10;
         }
         public virtual int Run()
         {
@@ -76,7 +62,7 @@ namespace WorldOfZuul
                 if (keyPressed == ConsoleKey.UpArrow)
                 {
                     SelectedIndex--;
-                    if(SelectedIndex == -1)
+                    if (SelectedIndex == -1)
                     {
                         SelectedIndex = Options.Length - 1;
                     }

@@ -1,5 +1,6 @@
 ﻿using ConsoleClient;
 using System;
+using System.Net.NetworkInformation;
 using System.Security;
 using System.Threading.Tasks.Dataflow;
 
@@ -106,7 +107,7 @@ a recycling room, to the West there is the composting room, and outside is to th
             PrintPrologue();
             Console.WriteLine($"Scrappy's Health level: {Scrappy.GetHealth}");
             Console.WriteLine();
-            PrintHelp();
+            //PrintHelp();
 
             bool continuePlaying = true;
             while (continuePlaying)
@@ -116,7 +117,6 @@ a recycling room, to the West there is the composting room, and outside is to th
                 if (currentRoom.FirstEnter)
                 {
                     Console.WriteLine(currentRoom.FirstDescription);
-                    Console.ReadKey(); //+++++++++
                     currentRoom.SetFirstEnterFalse();
                 }
                 else
@@ -126,11 +126,21 @@ a recycling room, to the West there is the composting room, and outside is to th
 
                 Console.Write("> ");
 
-                string[] commands = new string[] { "north", "east", "south", "west", "look", "back", "quit", "help", "map" };
-                Menu commandMenu = new Menu("Choose a command", commands);
+                string[] commands = new string[] { "NORTH", "EAST", "SOUTH", "WEST", 
+                    "LOOK", "BACK", "QUIT", "HELP", "MAP" };
+
+                MenuPlain commandMenu = new MenuPlain(
+                    "Navigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
+                    "\r\nChoose LOOK for more details"+
+                    "\r\nChoose BACK to go to the previous room"+
+                    "\r\nChoose HELP to print this message again"+
+                    "\r\nChoose MAP to print the minimap"+
+                    "\r\nChoose QUEST to do this room's quest" +
+                    "\r\nChosse QUIT to exit the game" +
+                    "\r\n ", commands);
                 int commandIndex = commandMenu.Run();
 
-                string? input = commands[commandIndex];
+                string? input = (commands[commandIndex]).ToLower();
                 //string? input = Console.ReadLine();
                 
                 if (string.IsNullOrEmpty(input))
@@ -164,15 +174,12 @@ a recycling room, to the West there is the composting room, and outside is to th
                 {
                     case "look":
                         Console.WriteLine(currentRoom?.LongDescription);
-
-                        Console.ReadKey(); //+++++++++
                         break;
 
                     case "back":
                         if (previousRoom == null)
                         {
                             Console.WriteLine("You can't go back from here!");
-                            Console.ReadKey(); //+++++++++
                         }
                         else
                             currentRoom = previousRoom;
