@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorldOfZuul
+namespace ConsoleClient.GameElements
 {
     public class DifficultyMenu : Menu
     {
         private string[] Difficulties;
-        public DifficultyMenu(string Prompt, string[] Options, string[] Difficulties) :base(Prompt,Options)
+        public DifficultyMenu(string Prompt, string[] Options, string[] Difficulties) : base(Prompt, Options)
         {
             this.Prompt = Prompt;
             this.Options = Options;
             this.Difficulties = Difficulties;
-            this.middleX = (Console.WindowWidth - 24) / 2;
-            this.middleY = Console.WindowHeight / 2;
+            middleX = (Console.WindowWidth - 24) / 2;
+            middleY = Console.WindowHeight / 2;
             SelectedIndex = 0;
         }
 
@@ -53,7 +53,7 @@ namespace WorldOfZuul
             }
             Console.ResetColor();
             Write("|======================| ");
-            this.middleY = Console.WindowHeight / 2;
+            middleY = Console.WindowHeight / 2;
         }
         public override int Run()
         {

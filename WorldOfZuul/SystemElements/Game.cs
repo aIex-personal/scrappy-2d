@@ -1,10 +1,10 @@
-﻿using ConsoleClient;
+﻿using ConsoleClient.GameElements;
 using System;
 using System.Net.NetworkInformation;
 using System.Security;
 using System.Threading.Tasks.Dataflow;
 
-namespace WorldOfZuul
+namespace ConsoleClient.SystemElements
 {
     public class Game
     {
@@ -76,19 +76,18 @@ namespace WorldOfZuul
             //        //Starting  
             //        currentRoom = outside;
             #endregion
-
             Room outside = new("Outside", @"First time of Scrappy looking around outside the Recycling Centre, his ship is broken.
 There is a door to the North, the sign says Hall.",
 @"Visiting outside, The ship still needs to be repaired, to the North there is the Hall");
             Room hall = new("Hall", @"First time of Scrappy is inside of the Recycling Centre, there is a kind robot.
 There is a door to the North, the sign doesn't say anything.
 To the West, there is a composting centre, to the East there is a recycling room",
-                                            @"You are in the hall, to the North there is a mysterious room, to the East there is 
+                                           @"You are in the hall, to the North there is a mysterious room, to the East there is 
 a recycling room, to the West there is the composting room, and outside is to the South. ");
             Room compost = new("Composting Garden", @"First Time Scrapp at composting garden. East: Hall",
-                                           @"Composting hall. East: Hall");
+                                          @"East: Hall");
             Room recyclingRoom = new("Recycling Room", @"First Time at Recycling Room. West: Hall",
-                                           @"Recycling Room. West: Hall");
+                                          @"Recycling Room. West: Hall");
             FinalRoom mysteryRoom = new FinalRoom("Final mission Room", "First Time at Final mission Room blablabla",
                                                 "You have accomplished your mission. You have no things left to do here");
 
@@ -112,8 +111,8 @@ a recycling room, to the West there is the composting room, and outside is to th
             bool continuePlaying = true;
             while (continuePlaying)
             {
-                 
-                Console.WriteLine();                                             
+
+                Console.WriteLine();
                 if (currentRoom.FirstEnter)
                 {
                     TypeLine(currentRoom.FirstDescription);
@@ -129,23 +128,20 @@ a recycling room, to the West there is the composting room, and outside is to th
                 Console.Write("> ");
 
                 string[] commands = new string[] { "NORTH ", "EAST  ", "SOUTH ", "WEST  ",
-                    "LOOK  ", "BACK  ", "QUIT  ", "HELP  ", "MAP   " };
+                    "LOOK  ", "BACK  ", "QUIT  ", "HELP  "};
 
                 MenuPlain commandMenu = new MenuPlain(
-                    "\r\n " +
-                    "Navigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
-                    "\r\nChoose LOOK for more details"+
-                    "\r\nChoose BACK to go to the previous room"+
-                    "\r\nChoose HELP to print this message again"+
-                    "\r\nChoose MAP to print the minimap"+
+                    "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
+                    "\r\nChoose LOOK for more details" +
+                    "\r\nChoose BACK to go to the previous room" +
+                    "\r\nChoose HELP to print this message again" +
                     "\r\nChoose QUEST to do this room's quest" +
                     "\r\nChosse QUIT to exit the game" +
                     "\r\n ", commands);
                 int commandIndex = commandMenu.Run();
 
-                string? input = (commands[commandIndex]).ToLower();
-                //string? input = Console.ReadLine();
-                
+                string? input = commands[commandIndex].ToLower();
+
                 if (string.IsNullOrEmpty(input))
                 {
                     TypeLine("Please enter a command.");
@@ -159,7 +155,7 @@ a recycling room, to the West there is the composting room, and outside is to th
                     TypeLine("I don't know that command.");
                     continue;
                 }
-                switch(command.Name)
+                switch (command.Name)
                 {
                     case "look":
                         TypeLine(currentRoom?.LongDescription);
@@ -196,7 +192,7 @@ a recycling room, to the West there is the composting room, and outside is to th
                         {
                             Move(command.Name);
                         }
-                        
+
                         break;
 
                     case "quit":
@@ -206,9 +202,9 @@ a recycling room, to the West there is the composting room, and outside is to th
                     case "help":
                         PrintHelp();
                         break;
-                    case "map":
-                        PrintMinimap();
-                        break;
+                    //case "map":
+                    //    PrintMinimap();
+                    //    break;
                     default:
                         TypeLine("I don't know what command.");
                         Console.ReadKey();
@@ -236,7 +232,7 @@ a recycling room, to the West there is the composting room, and outside is to th
         private static void PrintWelcome()
         {
             Console.SetWindowSize(175, 35);
-            
+
             Console.WriteLine(@"
 
                 ████████╗██╗  ██╗███████╗    ██╗    ██╗ █████╗ ██╗   ██╗    ██████╗  █████╗  ██████╗██╗  ██╗    ██╗  ██╗ ██████╗ ███╗   ███╗███████╗                       
@@ -252,15 +248,15 @@ a recycling room, to the West there is the composting room, and outside is to th
     ██║  ██║    ██║  ██║███████╗╚██████╗   ██║   ╚██████╗███████╗██║██║ ╚████║╚██████╔╝    ██║  ██║██████╔╝ ╚████╔╝ ███████╗██║ ╚████║   ██║   ╚██████╔╝██║  ██║███████╗██╗
     ╚═╝  ╚═╝    ╚═╝  ╚═╝╚══════╝ ╚═════╝   ╚═╝    ╚═════╝╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝     ╚═╝  ╚═╝╚═════╝   ╚═══╝  ╚══════╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝
 ");
-            Console.WriteLine(  );
+            Console.WriteLine();
             Console.WriteLine("Press Space to continue");
-            while (Console.ReadKey(true).Key != ConsoleKey.Spacebar){ }  //Player can only proceed in the menu with spacebar
-            
+            while (Console.ReadKey(true).Key != ConsoleKey.Spacebar) { }  //Player can only proceed in the menu with spacebar
+
 
 
 
             //Selecting difficulty level
-            while(true) 
+            while (true)
             {
                 string prompt = "Select your difficulty!";
                 string[] options = { " Easy ", "Medium", " Hard " };
@@ -312,7 +308,7 @@ a recycling room, to the West there is the composting room, and outside is to th
         }
         private static void PrintPrologue()
         {
-            Menu menu = new Menu("Prologue",new string[] {"Play", "Skip"});
+            Menu menu = new Menu("Prologue", new string[] { "Play", "Skip" });
             int selectedIndex = menu.Run();
             if (selectedIndex == 0)
             {
@@ -350,7 +346,7 @@ a recycling room, to the West there is the composting room, and outside is to th
         }
         private static void TypeLinePrologue(string line)
         {
-            Console.SetCursorPosition(0,10);
+            Console.SetCursorPosition(0, 10);
             for (int i = 0; i < line.Length; i++)
             {
                 Console.Write(line[i]);
@@ -375,38 +371,30 @@ a recycling room, to the West there is the composting room, and outside is to th
             Console.WriteLine("Tpye 'quest' to do this room's quest.");
             Console.WriteLine("Type 'quit' to exit the game.");
         }
-        private static void PrintMinimap()
-        {
-            
-            Console.Clear();
-            Console.WriteLine("                                                |");
-            Console.WriteLine("                                                |");
-            Console.WriteLine("                                                |");
-            Console.WriteLine("                     =======================================================");
-            Console.WriteLine("                     |                          |                          |");
-            Console.WriteLine("                     |                          |                          |");
-            Console.WriteLine("                     |                          |                          |");
-            Console.WriteLine("                     |                          |                          |");
-            Console.WriteLine("                     |                          |                          |");
-            Console.WriteLine("                     |                          |                          |");
-            Console.WriteLine("                     |                          |                          |");
-            Console.WriteLine("                     |                          |                          |");
-            Console.WriteLine("       =====================================================================");
-            Console.WriteLine("                     |                          |                          |");
-            Console.WriteLine("                     |                          |                          |");
-            Console.WriteLine("                     |                          |                          |");
-            Console.WriteLine("                     |                          |                          |");
-            Console.WriteLine("                     |                          |                          |");
-            Console.WriteLine("                     |                          |                          |");
-            Console.WriteLine("                     |                          |                          |");
-            Console.WriteLine("                     |                          |                          |");
-            Console.WriteLine("                     =======================================================");
-            Console.WriteLine("                                                |");
-            Console.WriteLine("                                                |");
-            Console.WriteLine("                                                |");
-            Console.WriteLine();
-            Console.WriteLine("Press any key to return");
-        }
+        //private static void PrintMinimap()
+        //{
+
+        //    Console.Clear();
+        //    Console.WriteLine("                             |                           ");
+        //    Console.WriteLine("                             |                           ");
+        //    Console.WriteLine("                             |                           ");
+        //    Console.WriteLine("                             |                           ");
+        //    Console.WriteLine("                             |                           ");
+        //    Console.WriteLine("                             |                           ");
+        //    Console.WriteLine("                             |                           ");
+        //    Console.WriteLine("                             |                           ");
+        //    Console.WriteLine("=========================================================");
+        //    Console.WriteLine("                             |                           ");
+        //    Console.WriteLine("                             |                           ");
+        //    Console.WriteLine("                             |                           ");
+        //    Console.WriteLine("                             |                           ");
+        //    Console.WriteLine("                             |                           ");
+        //    Console.WriteLine("                             |                           ");
+        //    Console.WriteLine("                             |                           ");
+        //    Console.WriteLine("                             |                           ");
+        //    Console.WriteLine($"                   {outside.MinimapDefault}                     ");
+        //    Console.WriteLine("Press any key to return");
+        //}
 
 
     }

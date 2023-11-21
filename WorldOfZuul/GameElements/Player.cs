@@ -1,11 +1,10 @@
-﻿using ConsoleClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorldOfZuul
+namespace ConsoleClient.GameElements
 {
     public class Player
     {
@@ -15,7 +14,7 @@ namespace WorldOfZuul
         { return health; }
         public void SetHealth(int value)
         {
-            this.health = value;
+            health = value;
         }
         public Player()
         {

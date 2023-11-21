@@ -6,38 +6,27 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorldOfZuul
+namespace ConsoleClient.GameElements
 {
-    public class Menu
+    public class MenuPlain
     {
         protected int SelectedIndex;
         protected string[] Options;
         protected string Prompt;
 
-        protected int middleX;
-        protected int middleY;
-
-        public Menu(string Prompt, string[] Options)
+        public MenuPlain(string Prompt, string[] Options)
         {
             this.Prompt = Prompt;
             this.Options = Options;
             SelectedIndex = 0;
-            this.middleX = (Console.WindowWidth - 24) / 2 +20;
-            this.middleY = Console.WindowHeight / 2 - 10;
         }
-
-        protected void Write(string s)
-        {
-            Console.SetCursorPosition(middleX, middleY);
-            Console.WriteLine(s);
-            middleY++;
-        }
-
 
         protected virtual void DisplayOptions()
         {
-            //Console.Clear();
-            Write(Prompt);
+            Console.Clear();
+            Console.WriteLine(Prompt);
+            Console.WriteLine(" ");
+            Console.WriteLine("|======================|");
             for (int i = 0; i < Options.Length; i++)
             {
                 string currentOption = Options[i];
@@ -57,11 +46,12 @@ namespace WorldOfZuul
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.BackgroundColor = ConsoleColor.Black;
                 }
-
-                Write($"{prefix} {currentOption} {suffix}");
+                Console.WriteLine($"|    {prefix} {currentOption} {suffix}      |");
+                Console.ResetColor();
             }
             Console.ResetColor();
-            this.middleY = Console.WindowHeight / 2 - 10;
+            Console.WriteLine("|======================|");
+            Console.WriteLine();
         }
         public virtual int Run()
         {
@@ -76,7 +66,7 @@ namespace WorldOfZuul
                 if (keyPressed == ConsoleKey.UpArrow)
                 {
                     SelectedIndex--;
-                    if(SelectedIndex == -1)
+                    if (SelectedIndex == -1)
                     {
                         SelectedIndex = Options.Length - 1;
                     }

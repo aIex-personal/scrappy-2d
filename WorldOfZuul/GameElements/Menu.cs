@@ -6,27 +6,38 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorldOfZuul
+namespace ConsoleClient.GameElements
 {
-    public class MenuPlain
+    public class Menu
     {
         protected int SelectedIndex;
         protected string[] Options;
         protected string Prompt;
 
-        public MenuPlain(string Prompt, string[] Options)
+        protected int middleX;
+        protected int middleY;
+
+        public Menu(string Prompt, string[] Options)
         {
             this.Prompt = Prompt;
             this.Options = Options;
             SelectedIndex = 0;
+            middleX = (Console.WindowWidth - 24) / 2 + 20;
+            middleY = Console.WindowHeight / 2 - 10;
         }
+
+        protected void Write(string s)
+        {
+            Console.SetCursorPosition(middleX, middleY);
+            Console.WriteLine(s);
+            middleY++;
+        }
+
 
         protected virtual void DisplayOptions()
         {
-            Console.Clear();
-            Console.WriteLine(Prompt);
-            Console.WriteLine(" ");
-            Console.WriteLine("|======================|");
+            //Console.Clear();
+            Write(Prompt);
             for (int i = 0; i < Options.Length; i++)
             {
                 string currentOption = Options[i];
@@ -46,12 +57,11 @@ namespace WorldOfZuul
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.BackgroundColor = ConsoleColor.Black;
                 }
-                Console.WriteLine($"|    {prefix} {currentOption} {suffix}      |");
-                Console.ResetColor();
+
+                Write($"{prefix} {currentOption} {suffix}");
             }
             Console.ResetColor();
-            Console.WriteLine("|======================|");
-            Console.WriteLine();
+            middleY = Console.WindowHeight / 2 - 10;
         }
         public virtual int Run()
         {

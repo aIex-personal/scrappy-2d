@@ -79,6 +79,7 @@ to maintain modularity, extensibility, and maintainability.
 using System;
 using System.ComponentModel;
 using System.Security.Cryptography.X509Certificates;
+using ConsoleClient.SystemElements;
 
 namespace WorldOfZuul
 {
