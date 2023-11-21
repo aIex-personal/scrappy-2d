@@ -22,7 +22,7 @@ namespace ConsoleClient
         {
             foreach (var item in items) { Console.WriteLine("item"); }
         }
-        public void Add(string item)
+        public void AddAndSet(string item)
         {
             items.Add(item);
         }

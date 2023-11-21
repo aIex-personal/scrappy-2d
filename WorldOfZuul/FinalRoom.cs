@@ -14,6 +14,10 @@ namespace ConsoleClient
             canEnter = false;
         }
         private bool canEnter;
+        public bool CanEnter()
+        {
+            return canEnter;
+        }
         public void SetCanEnterTrue()
         {
             canEnter = true;

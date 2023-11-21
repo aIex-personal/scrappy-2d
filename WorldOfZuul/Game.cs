@@ -170,7 +170,24 @@ namespace WorldOfZuul
                     case "south":
                     case "east":
                     case "west":
-                        Move(command.Name);
+                        if (currentRoom is FinalRoom)
+                        {
+                            if ((currentRoom as FinalRoom).CanEnter() == true)
+                            {
+                                Move(command.Name);
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("You don't have all the items to enter the Room!");
+                                Console.ReadKey();
+                            }
+                        }
+                        else
+                        {
+                            Move(command.Name);
+                        }
+                        
                         break;
 
                     case "quit":
@@ -335,6 +352,7 @@ namespace WorldOfZuul
             Console.WriteLine("Type 'back' to go to the previous room.");
             Console.WriteLine("Type 'help' to print this message again.");
             Console.WriteLine("Type 'map' to print the minimap");
+            Console.WriteLine("Tpye 'quest' to do this room's quest.");
             Console.WriteLine("Type 'quit' to exit the game.");
         }
         private static void PrintMinimap()
