@@ -17,14 +17,13 @@ namespace ConsoleClient.SystemElements
         public static Player Scrappy;
         //private int clearCounter;
 
-        public Game()
+        public Game() //constructor
         {
             Scrappy = new Player();
-            //this.clearCounter = 0;
             CreateRooms();
         }
 
-        private void CreateRooms()
+        private void CreateRooms() //Creating the Rooms, setting their exits and setting the starting room
         {
             #region oldCode
             //Creating the rooms, in the constructor there is the name of the room, and after that there is a 
@@ -97,39 +96,42 @@ a recycling room, to the West there is the composting room, and outside is to th
             compost.SetExit("east", hall);
             mysteryRoom.SetExit("south", hall);
             currentRoom = outside;
-        }
+        }   
 
-        public void Play()
+        public void Play() //Playing the Game
         {
             Parser parser = new();
             PrintWelcome();
             PrintPrologue();
-            Console.WriteLine($"Scrappy's Health level: {Scrappy.GetHealth}");
-            Console.WriteLine();
             //PrintHelp();
 
             bool continuePlaying = true;
             while (continuePlaying)
             {
 
+
+
                 Console.WriteLine();
+                //Checking If this is the first time netering this room
                 if (currentRoom.FirstEnter)
                 {
+                    //If yes, write the Room's first description, and set the room's FirstEnter prop to false
                     TypeLine(currentRoom.FirstDescription);
                     currentRoom.SetFirstEnterFalse();
                     Console.ReadKey();
                 }
                 else
                 {
+                    //If no, just write the default description of the room. 
                     TypeLine(currentRoom?.ShortDescription);
                     Console.ReadKey();
                 }
+                //Checking If this is the first time netering this room
 
-                Console.Write("> ");
 
+                //Initializing the neccessaries for the Menu
                 string[] commands = new string[] { "NORTH ", "EAST  ", "SOUTH ", "WEST  ",
                     "LOOK  ", "BACK  ", "QUIT  ", "HELP  "};
-
                 MenuPlain commandMenu = new MenuPlain(
                     "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
                     "\r\nChoose LOOK for more details" +
@@ -138,23 +140,36 @@ a recycling room, to the West there is the composting room, and outside is to th
                     "\r\nChoose QUEST to do this room's quest" +
                     "\r\nChosse QUIT to exit the game" +
                     "\r\n ", commands);
+                //Initializing the neccessaries for the Menu
+
+                //Running the Menu
                 int commandIndex = commandMenu.Run();
+                //Running the Menu
 
-                string? input = commands[commandIndex].ToLower();
 
+                string? input = commands[commandIndex].ToLower(); //Converts the chosen option to low letters 
+
+                //Checks if the command is null (nothing)
                 if (string.IsNullOrEmpty(input))
                 {
                     TypeLine("Please enter a command.");
                     continue;
                 }
+                //Checks if the command is null (nothing)
 
+                //Checks whether the chosen option is a real command
                 Command? command = parser.GetCommand(input);
+                //Checks whether the chosen option is a real command
 
+                //If command is null (can't be with the menu) then writes an 'error' message
                 if (command == null)
                 {
                     TypeLine("I don't know that command.");
                     continue;
                 }
+                //If command is null (can't be with the menu) then writes an 'error' message
+
+                //Checks the option you chose, and makes the right call
                 switch (command.Name)
                 {
                     case "look":
@@ -202,20 +217,21 @@ a recycling room, to the West there is the composting room, and outside is to th
                     case "help":
                         PrintHelp();
                         break;
-                    //case "map":
-                    //    PrintMinimap();
-                    //    break;
+
                     default:
                         TypeLine("I don't know what command.");
                         Console.ReadKey();
                         break;
                 }
+                //Checks the option you chose, and makes the right call
+
             }
 
+            //Thanks the user for playing the game
             TypeLine("Thank you for playing THE WAY BACK HOME: A recycling adventure!!");
         }
 
-        private void Move(string direction)
+        private void Move(string direction) //Moves the player to the next room
         {
             if (currentRoom?.Exits.ContainsKey(direction) == true)
             {
@@ -228,7 +244,6 @@ a recycling room, to the West there is the composting room, and outside is to th
                 Console.ReadKey();
             }
         }
-
         private static void PrintWelcome()
         {
             Console.SetWindowSize(175, 35);
@@ -294,18 +309,8 @@ a recycling room, to the West there is the composting room, and outside is to th
                 #endregion
             }
             Console.Clear();
-            //Console.WriteLine("Let's start this adventure!");
-            //Console.WriteLine();
-            //Console.WriteLine("Press Space to start");
-            //Console.ReadKey();
-            //Console.Clear();
-            //Console.WriteLine("Intro text.");
-            //Console.Clear();
-            //Console.ReadKey();
-
-            //PrintHelp();
             Console.WriteLine();
-        }
+        } //Prints the welcome message at the launch of the game
         private static void PrintPrologue()
         {
             Menu menu = new Menu("Prologue", new string[] { "Play", "Skip" });
@@ -343,7 +348,7 @@ a recycling room, to the West there is the composting room, and outside is to th
             {
                 Console.Clear();
             }
-        }
+        } //Prints the prologue for the game
         private static void TypeLinePrologue(string line)
         {
             Console.SetCursorPosition(0, 10);
@@ -352,7 +357,7 @@ a recycling room, to the West there is the composting room, and outside is to th
                 Console.Write(line[i]);
                 System.Threading.Thread.Sleep(1);
             }
-        }
+        }  //Helps printing the prologue in a typeline way
         private static void TypeLine(string line)
         {
             for (int i = 0; i < line.Length; i++)
@@ -360,7 +365,7 @@ a recycling room, to the West there is the composting room, and outside is to th
                 Console.Write(line[i]);
                 System.Threading.Thread.Sleep(1);
             }
-        }
+        } //Instead of Console.WriteLine() this can be used for a typeline effect
         private static void PrintHelp()
         {
             Console.WriteLine("Navigate by typing 'north', 'south', 'east', or 'west'.");
@@ -370,33 +375,7 @@ a recycling room, to the West there is the composting room, and outside is to th
             Console.WriteLine("Type 'map' to print the minimap");
             Console.WriteLine("Tpye 'quest' to do this room's quest.");
             Console.WriteLine("Type 'quit' to exit the game.");
-        }
-        //private static void PrintMinimap()
-        //{
-
-        //    Console.Clear();
-        //    Console.WriteLine("                             |                           ");
-        //    Console.WriteLine("                             |                           ");
-        //    Console.WriteLine("                             |                           ");
-        //    Console.WriteLine("                             |                           ");
-        //    Console.WriteLine("                             |                           ");
-        //    Console.WriteLine("                             |                           ");
-        //    Console.WriteLine("                             |                           ");
-        //    Console.WriteLine("                             |                           ");
-        //    Console.WriteLine("=========================================================");
-        //    Console.WriteLine("                             |                           ");
-        //    Console.WriteLine("                             |                           ");
-        //    Console.WriteLine("                             |                           ");
-        //    Console.WriteLine("                             |                           ");
-        //    Console.WriteLine("                             |                           ");
-        //    Console.WriteLine("                             |                           ");
-        //    Console.WriteLine("                             |                           ");
-        //    Console.WriteLine("                             |                           ");
-        //    Console.WriteLine($"                   {outside.MinimapDefault}                     ");
-        //    Console.WriteLine("Press any key to return");
-        //}
-
-
+        } //Prints help, might delete later
     }
 }
 
