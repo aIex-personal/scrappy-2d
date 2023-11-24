@@ -15,8 +15,11 @@ namespace ConsoleClient.GameElements
         }
         public List<string> ReadAll()
         {
-
             return items;
+        }
+        public int ItemsCount()
+        {
+            return items.Count;
         }
         public void ReadAllConsole()
         {

@@ -10,6 +10,7 @@ namespace ConsoleClient.GameElements
     {
         private int health;
         public Inventory inventory;
+        public int triviaPoints;
         public int GetHealth()
         { return health; }
         public void SetHealth(int value)
@@ -20,6 +21,7 @@ namespace ConsoleClient.GameElements
         {
             health = -1;
             inventory = new Inventory();
+            triviaPoints = 0;
         }
     }
 }

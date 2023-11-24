@@ -3,6 +3,7 @@ using System;
 using System.Net.NetworkInformation;
 using System.Security;
 using System.Threading.Tasks.Dataflow;
+using System.Xml.Linq;
 
 namespace ConsoleClient.SystemElements
 {
@@ -101,16 +102,13 @@ a recycling room, to the West there is the composting room, and outside is to th
         public void Play() //Playing the Game
         {
             Parser parser = new();
-            PrintWelcome();
-            PrintPrologue();
+            //PrintWelcome();
+            //PrintPrologue();
             //PrintHelp();
 
             bool continuePlaying = true;
             while (continuePlaying)
             {
-
-
-
                 Console.WriteLine();
                 //Checking If this is the first time entering this room
                 if (currentRoom.FirstEnter)
@@ -131,7 +129,7 @@ a recycling room, to the West there is the composting room, and outside is to th
 
                 //Initializing the neccessaries for the Menu
                 string[] commands = new string[] { "NORTH ", "EAST  ", "SOUTH ", "WEST  ",
-                    "LOOK  ", "BACK  ", "QUIT  ", "HELP  "};
+                    "LOOK  ", "BACK  ","HELP  ","QUEST ", "QUIT  "};
                 MenuPlain commandMenu = new MenuPlain(
                     "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
                     "\r\nChoose LOOK for more details" +
@@ -139,6 +137,7 @@ a recycling room, to the West there is the composting room, and outside is to th
                     "\r\nChoose HELP to print this message again" +
                     "\r\nChoose QUEST to do this room's quest" +
                     "\r\nChosse QUIT to exit the game" +
+                    "\r\nChoose QUEST to do the quest in this room" +
                     "\r\n ", commands);
                 //Initializing the neccessaries for the Menu
 
@@ -190,23 +189,6 @@ a recycling room, to the West there is the composting room, and outside is to th
                     case "south":
                     case "east":
                     case "west":
-                        //if (currentRoom is FinalRoom) //Checking whether the room you want to enter to is the FinalMission Room
-                        //{
-                        //    if ((currentRoom as FinalRoom).CanEnter() == true)
-                        //    {
-                        //        Move(command.Name);
-                        //        break;
-                        //    }
-                        //    else
-                        //    {
-                        //        TypeLine("You don't have all the items to enter the Room!");
-                        //        Console.ReadKey();
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //    Move(command.Name);
-                        //}
                         Move(command.Name);
                         break;
 
@@ -216,6 +198,10 @@ a recycling room, to the West there is the composting room, and outside is to th
 
                     case "help":
                         PrintHelp();
+                        break;
+
+                    case "quest":
+                        PrintQuest();
                         break;
 
                     default:
@@ -230,7 +216,61 @@ a recycling room, to the West there is the composting room, and outside is to th
             //Thanks the user for playing the game
             TypeLine("Thank you for playing THE WAY BACK HOME: A recycling adventure!!");
         }
+        private static void Quiz(MenuQuiz[] Questions)
+        {
+            foreach (var menu in Questions)
+            {
+                if (menu.Run() == 1)
+                {
+                    Scrappy.triviaPoints++;
+                }
+            }
+        }
+        private void CreateQuiz()
+        {
+            MenuQuiz[] questions = new MenuQuiz[]
+            {
+                new MenuQuiz("What is the process of turning used materials into new " +
+                "products to prevent waste and reduce the consumption of fresh raw materials called?"
+                , new string[] { "A) Repeating", "B) Recycling", "C) Replicating", "D) Refurbishing" }
+                , "B) Recycling"),
+                new MenuQuiz("Which of the following is a widely recycled material?"
+                , new string[] { "A) Styrofoam", "B) Glass", "C) Plastic Bags", "D) All of the above" }
+                , "D) All of the above"),
+                new MenuQuiz("What do the three chasing arrows in the recycling symbol represent?"
+                , new string[] { "A) Reduce, Reuse, Recycle", "B) Earth, Water, Air",
+                    "C) Recyclable, Non-recyclable, Compostable",  "D) Collection, Processing, Remanufacturing"}
+                , "A) Reduce, Reuse, Recycle"),
+                new MenuQuiz("True or False: Composting is a form of recycling."
+                , new string[] { "A) True", "B) False"}
+                , "A) True"),
+                new MenuQuiz("What do the three chasing arrows in the recycling symbol represent?"
+                , new string[] { "A) Reduce, Reuse, Recycle", "B) Earth, Water, Air",
+                    "C) Recyclable, Non-recyclable, Compostable",  "D) Collection, Processing, Remanufacturing"}
+                , "A) Reduce, Reuse, Recycle"),
+                new MenuQuiz("What do the three chasing arrows in the recycling symbol represent?"
+                , new string[] { "A) Reduce, Reuse, Recycle", "B) Earth, Water, Air",
+                    "C) Recyclable, Non-recyclable, Compostable",  "D) Collection, Processing, Remanufacturing"}
+                , "A) Reduce, Reuse, Recycle"),
+                new MenuQuiz("What do the three chasing arrows in the recycling symbol represent?"
+                , new string[] { "A) Reduce, Reuse, Recycle", "B) Earth, Water, Air",
+                    "C) Recyclable, Non-recyclable, Compostable",  "D) Collection, Processing, Remanufacturing"}
+                , "A) Reduce, Reuse, Recycle"),
+                new MenuQuiz("What do the three chasing arrows in the recycling symbol represent?"
+                , new string[] { "A) Reduce, Reuse, Recycle", "B) Earth, Water, Air",
+                    "C) Recyclable, Non-recyclable, Compostable",  "D) Collection, Processing, Remanufacturing"}
+                , "A) Reduce, Reuse, Recycle"),
+                new MenuQuiz("What do the three chasing arrows in the recycling symbol represent?"
+                , new string[] { "A) Reduce, Reuse, Recycle", "B) Earth, Water, Air",
+                    "C) Recyclable, Non-recyclable, Compostable",  "D) Collection, Processing, Remanufacturing"}
+                , "A) Reduce, Reuse, Recycle"),
+                new MenuQuiz("What do the three chasing arrows in the recycling symbol represent?"
+                , new string[] { "A) Reduce, Reuse, Recycle", "B) Earth, Water, Air",
+                    "C) Recyclable, Non-recyclable, Compostable",  "D) Collection, Processing, Remanufacturing"}
+                , "A) Reduce, Reuse, Recycle"),
 
+            };
+        }
         private void Move(string direction) //Moves the player to the next room
         {
             
@@ -248,6 +288,11 @@ a recycling room, to the West there is the composting room, and outside is to th
                     {
                         TypeLine("You don't have all the items to enter the Room!");
                     }
+                }
+                else
+                {
+                    previousRoom = currentRoom;
+                    currentRoom = currentRoom?.Exits[direction];
                 }
             }
             else
