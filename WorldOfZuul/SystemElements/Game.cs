@@ -112,7 +112,7 @@ a recycling room, to the West there is the composting room, and outside is to th
 
 
                 Console.WriteLine();
-                //Checking If this is the first time netering this room
+                //Checking If this is the first time entering this room
                 if (currentRoom.FirstEnter)
                 {
                     //If yes, write the Room's first description, and set the room's FirstEnter prop to false
@@ -190,24 +190,24 @@ a recycling room, to the West there is the composting room, and outside is to th
                     case "south":
                     case "east":
                     case "west":
-                        if (currentRoom is FinalRoom)
-                        {
-                            if ((currentRoom as FinalRoom).CanEnter() == true)
-                            {
-                                Move(command.Name);
-                                break;
-                            }
-                            else
-                            {
-                                TypeLine("You don't have all the items to enter the Room!");
-                                Console.ReadKey();
-                            }
-                        }
-                        else
-                        {
-                            Move(command.Name);
-                        }
-
+                        //if (currentRoom is FinalRoom) //Checking whether the room you want to enter to is the FinalMission Room
+                        //{
+                        //    if ((currentRoom as FinalRoom).CanEnter() == true)
+                        //    {
+                        //        Move(command.Name);
+                        //        break;
+                        //    }
+                        //    else
+                        //    {
+                        //        TypeLine("You don't have all the items to enter the Room!");
+                        //        Console.ReadKey();
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    Move(command.Name);
+                        //}
+                        Move(command.Name);
                         break;
 
                     case "quit":
@@ -233,10 +233,22 @@ a recycling room, to the West there is the composting room, and outside is to th
 
         private void Move(string direction) //Moves the player to the next room
         {
+            
             if (currentRoom?.Exits.ContainsKey(direction) == true)
             {
-                previousRoom = currentRoom;
-                currentRoom = currentRoom?.Exits[direction];
+                Room? room = currentRoom?.Exits[direction];
+                if (room is FinalRoom)
+                {
+                    if ((room as FinalRoom).CanEnter() == true)
+                    {
+                        previousRoom = currentRoom;
+                        currentRoom = currentRoom?.Exits[direction];
+                    }
+                    else
+                    {
+                        TypeLine("You don't have all the items to enter the Room!");
+                    }
+                }
             }
             else
             {
