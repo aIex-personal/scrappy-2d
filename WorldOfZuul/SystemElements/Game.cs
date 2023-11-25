@@ -201,7 +201,7 @@ a recycling room, to the West there is the composting room, and outside is to th
                         break;
 
                     case "quest":
-                        PrintQuest();
+                        Quiz(CreateQuiz());
                         break;
 
                     default:
@@ -225,8 +225,10 @@ a recycling room, to the West there is the composting room, and outside is to th
                     Scrappy.triviaPoints++;
                 }
             }
+            Console.WriteLine($"Score: {Scrappy.triviaPoints}" );
+            Console.ReadKey();
         }
-        private void CreateQuiz()
+        private MenuQuiz[] CreateQuiz()
         {
             MenuQuiz[] questions = new MenuQuiz[]
             {
@@ -234,42 +236,49 @@ a recycling room, to the West there is the composting room, and outside is to th
                 "products to prevent waste and reduce the consumption of fresh raw materials called?"
                 , new string[] { "A) Repeating", "B) Recycling", "C) Replicating", "D) Refurbishing" }
                 , "B) Recycling"),
+
                 new MenuQuiz("Which of the following is a widely recycled material?"
                 , new string[] { "A) Styrofoam", "B) Glass", "C) Plastic Bags", "D) All of the above" }
                 , "D) All of the above"),
-                new MenuQuiz("What do the three chasing arrows in the recycling symbol represent?"
-                , new string[] { "A) Reduce, Reuse, Recycle", "B) Earth, Water, Air",
-                    "C) Recyclable, Non-recyclable, Compostable",  "D) Collection, Processing, Remanufacturing"}
-                , "A) Reduce, Reuse, Recycle"),
-                new MenuQuiz("True or False: Composting is a form of recycling."
-                , new string[] { "A) True", "B) False"}
-                , "A) True"),
-                new MenuQuiz("What do the three chasing arrows in the recycling symbol represent?"
-                , new string[] { "A) Reduce, Reuse, Recycle", "B) Earth, Water, Air",
-                    "C) Recyclable, Non-recyclable, Compostable",  "D) Collection, Processing, Remanufacturing"}
-                , "A) Reduce, Reuse, Recycle"),
-                new MenuQuiz("What do the three chasing arrows in the recycling symbol represent?"
-                , new string[] { "A) Reduce, Reuse, Recycle", "B) Earth, Water, Air",
-                    "C) Recyclable, Non-recyclable, Compostable",  "D) Collection, Processing, Remanufacturing"}
-                , "A) Reduce, Reuse, Recycle"),
-                new MenuQuiz("What do the three chasing arrows in the recycling symbol represent?"
-                , new string[] { "A) Reduce, Reuse, Recycle", "B) Earth, Water, Air",
-                    "C) Recyclable, Non-recyclable, Compostable",  "D) Collection, Processing, Remanufacturing"}
-                , "A) Reduce, Reuse, Recycle"),
-                new MenuQuiz("What do the three chasing arrows in the recycling symbol represent?"
-                , new string[] { "A) Reduce, Reuse, Recycle", "B) Earth, Water, Air",
-                    "C) Recyclable, Non-recyclable, Compostable",  "D) Collection, Processing, Remanufacturing"}
-                , "A) Reduce, Reuse, Recycle"),
-                new MenuQuiz("What do the three chasing arrows in the recycling symbol represent?"
-                , new string[] { "A) Reduce, Reuse, Recycle", "B) Earth, Water, Air",
-                    "C) Recyclable, Non-recyclable, Compostable",  "D) Collection, Processing, Remanufacturing"}
-                , "A) Reduce, Reuse, Recycle"),
+
                 new MenuQuiz("What do the three chasing arrows in the recycling symbol represent?"
                 , new string[] { "A) Reduce, Reuse, Recycle", "B) Earth, Water, Air",
                     "C) Recyclable, Non-recyclable, Compostable",  "D) Collection, Processing, Remanufacturing"}
                 , "A) Reduce, Reuse, Recycle"),
 
+                new MenuQuiz("True or False: Composting is a form of recycling."
+                , new string[] { "A) True", "B) False"}
+                , "A) True"),
+
+                new MenuQuiz("In which category of waste should old newspapers and magazines typically be placed for recycling?"
+                , new string[] { "A) Paper", "B) Plastic", "C) Metal",  "D) Glass"}
+                , "A) Paper"),
+
+                new MenuQuiz("What is the term for the practice of collecting rainwater " +
+                "for later use in activities like watering plants and flushing toilets?"
+                , new string[] { "A) Rain Harvesting", "B) Water Conservation", "C) Rainwater Reuse", "D) Water Harvesting" }
+                , "A) Rain Harvesting"),
+
+                new MenuQuiz("Which of the following materials is NOT commonly accepted in curbside recycling programs:"
+                , new string[] { "A) Aluminum cans", "B) Pizza boxes", "C) Plastic bottles", "D) Cardboard" }
+                , "B) Pizza boxes"),
+
+                new MenuQuiz("What does the acronym PET stand for in the context of recycling?"
+                , new string[] { "A) Polyethylene Terephthalate", "B) Plastic Extraction Technology"
+                , "C) Paper Elimination Technique", "D) Post-consumer Environmental Treatment" }
+                , "A) Polyethylene Terephthalate"),
+
+                new MenuQuiz("Which country is often cited as a leader in recycling" +
+                ", with high rates of recycling and efficient waste management systems?"
+                , new string[] { "A) United States", "B) Germany", "C) China", "D) Brazil" }
+                , "B) Germany"),
+
+                new MenuQuiz("True or False: Biodegradable and compostable plastics can be recycled in the same way as traditional plastics."
+                , new string[] { "A) True", "B) False"}
+                , "B) False"),
+
             };
+            return questions;
         }
         private void Move(string direction) //Moves the player to the next room
         {
