@@ -8,6 +8,7 @@ namespace ConsoleClient.GameElements
         public string ShortDescription { get; private set; }
         public string LongDescription { get; private set; }
         public string FirstDescription { get; private set; }
+        MenuPlain commandMenu;
         public Dictionary<string, Room> Exits { get; private set; } = new();
 
         private bool firstEnter;
@@ -20,12 +21,13 @@ namespace ConsoleClient.GameElements
             firstEnter = false;
         }
 
-        public Room(string shortDesc, string firstDescription, string longDesc)
+        public Room(string shortDesc, string firstDescription, string longDesc, MenuPlain commandMenu)
         {
             ShortDescription = shortDesc;
             LongDescription = longDesc;
             firstEnter = true;
             FirstDescription = firstDescription;
+            this.commandMenu = commandMenu;
         }
 
         public void SetExits(Room? north, Room? east, Room? south, Room? west)

@@ -8,7 +8,7 @@ namespace ConsoleClient.GameElements
 {
     internal class FinalRoom : Room
     {
-        public FinalRoom(string shortDesc, string longDesc, string firstDescription) : base(shortDesc, longDesc, firstDescription)
+        public FinalRoom(string shortDesc, string longDesc, string firstDescription, MenuPlain commandMenu) : base(shortDesc, longDesc, firstDescription, commandMenu)
         {
             canEnter = false;
         }

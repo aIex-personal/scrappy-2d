@@ -78,16 +78,57 @@ namespace ConsoleClient.SystemElements
             #endregion
             Room outside = new("Outside", @"First time of Scrappy looking around outside the Recycling Centre, his ship is broken.
 There is a door to the North, the sign says Hall.",
-@"Visiting outside, The ship still needs to be repaired, to the North there is the Hall");
+@"Visiting outside, The ship still needs to be repaired, to the North there is the Hall",
+new MenuPlain(
+                    "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
+                    "\r\nChoose LOOK for more details" +
+                    "\r\nChoose BACK to go to the previous room" +
+                    "\r\nChoose HELP to print this message again" +
+                    "\r\nChoose QUEST to do this room's quest" +
+                    "\r\nChosse QUIT to exit the game" +
+                    "\r\nChoose QUEST to do the quest in this room" +
+                    "\r\n ", new string[] { "NORTH ", "LOOK  ", "BACK  ", "HELP  ", "QUEST ", "QUIT  " })
+);
+
             Room hall = new("Hall", @"First time of Scrappy is inside of the Recycling Centre, there is a kind robot.
 There is a door to the North, the sign doesn't say anything.
 To the West, there is a composting centre, to the East there is a recycling room",
                                            @"You are in the hall, to the North there is a mysterious room, to the East there is 
-a recycling room, to the West there is the composting room, and outside is to the South. ");
+a recycling room, to the West there is the composting room, and outside is to the South. ",
+new MenuPlain(
+                    "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
+                    "\r\nChoose LOOK for more details" +
+                    "\r\nChoose BACK to go to the previous room" +
+                    "\r\nChoose HELP to print this message again" +
+                    "\r\nChoose QUEST to do this room's quest" +
+                    "\r\nChosse QUIT to exit the game" +
+                    "\r\nChoose QUEST to do the quest in this room" +
+                    "\r\n ", new string[] {"NORTH ", "EAST  ", "SOUTH ", "WEST  ",
+                    "LOOK  ", "BACK  ","HELP  ","QUEST ", "QUIT  "}));
+
             Room compost = new("Composting Garden", @"First Time Scrapp at composting garden. East: Hall",
-                                          @"East: Hall");
+                                          @"East: Hall",
+                                          new MenuPlain(
+                    "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
+                    "\r\nChoose LOOK for more details" +
+                    "\r\nChoose BACK to go to the previous room" +
+                    "\r\nChoose HELP to print this message again" +
+                    "\r\nChoose QUEST to do this room's quest" +
+                    "\r\nChosse QUIT to exit the game" +
+                    "\r\nChoose QUEST to do the quest in this room" +
+                    "\r\n ", new string[] { "EAST  ", "LOOK  ", "BACK  ", "HELP  ", "QUEST ", "QUIT  " }));
+
             Room recyclingRoom = new("Recycling Room", @"First Time at Recycling Room. West: Hall",
-                                          @"Recycling Room. West: Hall");
+                                          @"Recycling Room. West: Hall",
+                                          new MenuPlain(
+                    "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
+                    "\r\nChoose LOOK for more details" +
+                    "\r\nChoose BACK to go to the previous room" +
+                    "\r\nChoose HELP to print this message again" +
+                    "\r\nChoose QUEST to do this room's quest" +
+                    "\r\nChosse QUIT to exit the game" +
+                    "\r\nChoose QUEST to do the quest in this room" +
+                    "\r\n ", new string[] { "WEST  ", "LOOK  ", "BACK  ", "HELP  ", "QUEST ", "QUIT  " }));
             FinalRoom mysteryRoom = new FinalRoom("Final mission Room", "First Time at Final mission Room blablabla",
                                                 "You have accomplished your mission. You have no things left to do here");
 
