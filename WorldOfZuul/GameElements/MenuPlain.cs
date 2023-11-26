@@ -53,7 +53,7 @@ namespace ConsoleClient.GameElements
             Console.WriteLine("|======================|");
             Console.WriteLine();
         }
-        public virtual int Run()
+        public virtual string Run()
         {
             ConsoleKey keyPressed;
             do
@@ -83,7 +83,7 @@ namespace ConsoleClient.GameElements
 
             } while (keyPressed != ConsoleKey.Enter && keyPressed != ConsoleKey.Spacebar);
 
-            return SelectedIndex;
+            return Options[SelectedIndex];
         }
     }
 }

@@ -8,7 +8,7 @@ namespace ConsoleClient.GameElements
         public string ShortDescription { get; private set; }
         public string LongDescription { get; private set; }
         public string FirstDescription { get; private set; }
-        MenuPlain commandMenu;
+        public MenuPlain commandMenu { get; private set; }
         public Dictionary<string, Room> Exits { get; private set; } = new();
 
         private bool firstEnter;

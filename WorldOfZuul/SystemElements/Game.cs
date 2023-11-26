@@ -9,6 +9,7 @@ namespace ConsoleClient.SystemElements
 {
     public class Game
     {
+        //Initalizing Game's classes variables
         private Room? currentRoom;
         private Room? previousRoom;
 
@@ -80,6 +81,7 @@ namespace ConsoleClient.SystemElements
 There is a door to the North, the sign says Hall.",
 @"Visiting outside, The ship still needs to be repaired, to the North there is the Hall",
 new MenuPlain(
+                    "\r\nOutside" +
                     "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
                     "\r\nChoose LOOK for more details" +
                     "\r\nChoose BACK to go to the previous room" +
@@ -96,6 +98,7 @@ To the West, there is a composting centre, to the East there is a recycling room
                                            @"You are in the hall, to the North there is a mysterious room, to the East there is 
 a recycling room, to the West there is the composting room, and outside is to the South. ",
 new MenuPlain(
+                    "\r\nHall" +
                     "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
                     "\r\nChoose LOOK for more details" +
                     "\r\nChoose BACK to go to the previous room" +
@@ -109,6 +112,7 @@ new MenuPlain(
             Room compost = new("Composting Garden", @"First Time Scrapp at composting garden. East: Hall",
                                           @"East: Hall",
                                           new MenuPlain(
+                    "\r\nComposting Garden" +
                     "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
                     "\r\nChoose LOOK for more details" +
                     "\r\nChoose BACK to go to the previous room" +
@@ -121,6 +125,7 @@ new MenuPlain(
             Room recyclingRoom = new("Recycling Room", @"First Time at Recycling Room. West: Hall",
                                           @"Recycling Room. West: Hall",
                                           new MenuPlain(
+                    "\r\nRecycling Room" +
                     "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
                     "\r\nChoose LOOK for more details" +
                     "\r\nChoose BACK to go to the previous room" +
@@ -130,7 +135,17 @@ new MenuPlain(
                     "\r\nChoose QUEST to do the quest in this room" +
                     "\r\n ", new string[] { "WEST  ", "LOOK  ", "BACK  ", "HELP  ", "QUEST ", "QUIT  " }));
             FinalRoom mysteryRoom = new FinalRoom("Final mission Room", "First Time at Final mission Room blablabla",
-                                                "You have accomplished your mission. You have no things left to do here");
+                                                "You have accomplished your mission. You have no things left to do here",
+                                               new MenuPlain(
+                    "\r\n Final Room" +
+                    "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
+                    "\r\nChoose LOOK for more details" +
+                    "\r\nChoose BACK to go to the previous room" +
+                    "\r\nChoose HELP to print this message again" +
+                    "\r\nChoose QUEST to do this room's quest" +
+                    "\r\nChosse QUIT to exit the game" +
+                    "\r\nChoose QUEST to do the quest in this room" +
+                    "\r\n ", new string[] {"SOUTH ", "LOOK  ", "BACK  ","HELP  ","QUEST ", "QUIT  "}));
 
             outside.SetExit("north", hall);
             hall.SetExits(mysteryRoom, recyclingRoom, outside, compost);
@@ -147,6 +162,8 @@ new MenuPlain(
             //PrintPrologue();
             //PrintHelp();
 
+            string commandString;
+            //int commandIndex = -1;
             bool continuePlaying = true;
             while (continuePlaying)
             {
@@ -155,39 +172,50 @@ new MenuPlain(
                 if (currentRoom.FirstEnter)
                 {
                     //If yes, write the Room's first description, and set the room's FirstEnter prop to false
+                    Console.Clear();
                     TypeLine(currentRoom.FirstDescription);
-                    currentRoom.SetFirstEnterFalse();
                     Console.ReadKey();
+                    currentRoom.SetFirstEnterFalse();
+                    //commandIndex = currentRoom.commandMenu.Run();
+                    commandString = currentRoom.commandMenu.Run();
                 }
                 else
                 {
                     //If no, just write the default description of the room. 
-                    TypeLine(currentRoom?.ShortDescription);
+                    Console.Clear();
+                    commandString = currentRoom.commandMenu.Run();
+                    //commandIndex = currentRoom.commandMenu.Run();
+                    //TypeLine(currentRoom?.ShortDescription);
+                    //Console.ReadKey();
+                    TypeLine(currentRoom?.LongDescription);
                     Console.ReadKey();
                 }
                 //Checking If this is the first time netering this room
 
 
                 //Initializing the neccessaries for the Menu
-                string[] commands = new string[] { "NORTH ", "EAST  ", "SOUTH ", "WEST  ",
-                    "LOOK  ", "BACK  ","HELP  ","QUEST ", "QUIT  "};
-                MenuPlain commandMenu = new MenuPlain(
-                    "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
-                    "\r\nChoose LOOK for more details" +
-                    "\r\nChoose BACK to go to the previous room" +
-                    "\r\nChoose HELP to print this message again" +
-                    "\r\nChoose QUEST to do this room's quest" +
-                    "\r\nChosse QUIT to exit the game" +
-                    "\r\nChoose QUEST to do the quest in this room" +
-                    "\r\n ", commands);
+                //string[] commands = new string[] { "NORTH ", "EAST  ", "SOUTH ", "WEST  ",
+                //    "LOOK  ", "BACK  ","HELP  ","QUEST ", "QUIT  "};
+                //MenuPlain commandMenu = new MenuPlain(
+                //    "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
+                //    "\r\nChoose LOOK for more details" +
+                //    "\r\nChoose BACK to go to the previous room" +
+                //    "\r\nChoose HELP to print this message again" +
+                //    "\r\nChoose QUEST to do this room's quest" +
+                //    "\r\nChosse QUIT to exit the game" +
+                //    "\r\nChoose QUEST to do the quest in this room" +
+                //    "\r\n ", commands);
                 //Initializing the neccessaries for the Menu
 
                 //Running the Menu
-                int commandIndex = commandMenu.Run();
+                //int commandIndex = commandMenu.Run();
                 //Running the Menu
 
 
-                string? input = commands[commandIndex].ToLower(); //Converts the chosen option to low letters 
+                //string? input = commands[commandIndex].ToLower(); //Converts the chosen option to low letters 
+
+                string? input = commandString.Trim().ToLower();
+
 
                 //Checks if the command is null (nothing)
                 if (string.IsNullOrEmpty(input))
@@ -214,6 +242,7 @@ new MenuPlain(
                 {
                     case "look":
                         TypeLine(currentRoom?.LongDescription);
+                        Console.ReadKey();
                         break;
 
                     case "back":
@@ -337,6 +366,7 @@ new MenuPlain(
                     else
                     {
                         TypeLine("You don't have all the items to enter the Room!");
+                        Console.ReadKey();
                     }
                 }
                 else
