@@ -89,7 +89,9 @@ new MenuPlain(
                     "\r\nChoose QUEST to do this room's quest" +
                     "\r\nChosse QUIT to exit the game" +
                     "\r\nChoose QUEST to do the quest in this room" +
-                    "\r\n ", new string[] { "NORTH ", "LOOK  ", "BACK  ", "HELP  ", "QUEST ", "QUIT  " })
+                    "\r\n ", new string[] { "NORTH ", "LOOK  ", "BACK  ", "HELP  ", "QUEST ", "QUIT  " }
+                    )
+
 );
 
             Room hall = new("Hall", @"First time of Scrappy is inside of the Recycling Centre, there is a kind robot.
@@ -147,6 +149,7 @@ new MenuPlain(
                     "\r\nChoose QUEST to do the quest in this room" +
                     "\r\n ", new string[] {"SOUTH ", "LOOK  ", "BACK  ","HELP  ","QUEST ", "QUIT  "}));
 
+            
             outside.SetExit("north", hall);
             hall.SetExits(mysteryRoom, recyclingRoom, outside, compost);
             recyclingRoom.SetExit("west", hall);
