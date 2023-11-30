@@ -147,7 +147,7 @@ new MenuPlain(
                     "\r\nChoose QUEST to do this room's quest" +
                     "\r\nChosse QUIT to exit the game" +
                     "\r\nChoose QUEST to do the quest in this room" +
-                    "\r\n ", new string[] {"SOUTH ", "LOOK  ", "BACK  ","HELP  ","QUEST ", "QUIT  "}));
+                    "\r\n ", new string[] {"SOUTH ", "LOOK  ", "BACK  ","HELP  ","QUEST ","QUIZ  ", "QUIT  "}));
 
             
             outside.SetExit("north", hall);
@@ -161,8 +161,8 @@ new MenuPlain(
         public void Play() //Playing the Game
         {
             Parser parser = new();
-            //PrintWelcome();
-            //PrintPrologue();
+            PrintWelcome();
+            PrintPrologue();
             //PrintHelp();
 
             string commandString;
@@ -179,7 +179,6 @@ new MenuPlain(
                     TypeLine(currentRoom.FirstDescription);
                     Console.ReadKey();
                     currentRoom.SetFirstEnterFalse();
-                    //commandIndex = currentRoom.commandMenu.Run();
                     commandString = currentRoom.commandMenu.Run();
                 }
                 else
@@ -187,35 +186,11 @@ new MenuPlain(
                     //If no, just write the default description of the room. 
                     Console.Clear();
                     commandString = currentRoom.commandMenu.Run();
-                    //commandIndex = currentRoom.commandMenu.Run();
-                    //TypeLine(currentRoom?.ShortDescription);
-                    //Console.ReadKey();
                     TypeLine(currentRoom?.LongDescription);
                     Console.ReadKey();
                 }
                 //Checking If this is the first time netering this room
 
-
-                //Initializing the neccessaries for the Menu
-                //string[] commands = new string[] { "NORTH ", "EAST  ", "SOUTH ", "WEST  ",
-                //    "LOOK  ", "BACK  ","HELP  ","QUEST ", "QUIT  "};
-                //MenuPlain commandMenu = new MenuPlain(
-                //    "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
-                //    "\r\nChoose LOOK for more details" +
-                //    "\r\nChoose BACK to go to the previous room" +
-                //    "\r\nChoose HELP to print this message again" +
-                //    "\r\nChoose QUEST to do this room's quest" +
-                //    "\r\nChosse QUIT to exit the game" +
-                //    "\r\nChoose QUEST to do the quest in this room" +
-                //    "\r\n ", commands);
-                //Initializing the neccessaries for the Menu
-
-                //Running the Menu
-                //int commandIndex = commandMenu.Run();
-                //Running the Menu
-
-
-                //string? input = commands[commandIndex].ToLower(); //Converts the chosen option to low letters 
 
                 string? input = commandString.Trim().ToLower();
 
@@ -273,9 +248,10 @@ new MenuPlain(
                         PrintHelp();
                         break;
 
-                    case "quest":
+                    case "quiz ":
                         Quiz(CreateQuiz());
                         break;
+
 
                     default:
                         TypeLine("I don't know what command.");
