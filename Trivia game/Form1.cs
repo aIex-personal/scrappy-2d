@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Trivia_game
 {
-    //this is trivia game
+    //this is Trivia game
     public partial class Form1 : Form
     {
         // quiz game variables
@@ -23,7 +23,7 @@ namespace Trivia_game
         {
             InitializeComponent();
             askQuestion(questionNumber);
-            totalQuestions = 8;
+            totalQuestions = 5;
         }
         private void ClickAnswerEvent(object sender, EventArgs e)
         {
