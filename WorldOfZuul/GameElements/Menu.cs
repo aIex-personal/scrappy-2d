@@ -6,14 +6,13 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorldOfZuul
+namespace ConsoleClient.GameElements
 {
     public class Menu
     {
         protected int SelectedIndex;
         protected string[] Options;
         protected string Prompt;
-
 
         protected int middleX;
         protected int middleY;
@@ -23,8 +22,8 @@ namespace WorldOfZuul
             this.Prompt = Prompt;
             this.Options = Options;
             SelectedIndex = 0;
-            this.middleX = (Console.WindowWidth - 24) / 2 + 5;
-            this.middleY = Console.WindowHeight / 2 - 10;
+            middleX = (Console.WindowWidth - 24) / 2 + 20;
+            middleY = Console.WindowHeight / 2 - 10;
         }
 
         protected void Write(string s)
@@ -37,7 +36,7 @@ namespace WorldOfZuul
 
         protected virtual void DisplayOptions()
         {
-            Console.Clear();
+            //Console.Clear();
             Write(Prompt);
             for (int i = 0; i < Options.Length; i++)
             {
@@ -62,7 +61,7 @@ namespace WorldOfZuul
                 Write($"{prefix} {currentOption} {suffix}");
             }
             Console.ResetColor();
-            this.middleY = Console.WindowHeight / 2 - 10;
+            middleY = Console.WindowHeight / 2 - 10;
         }
         public virtual int Run()
         {
@@ -77,7 +76,7 @@ namespace WorldOfZuul
                 if (keyPressed == ConsoleKey.UpArrow)
                 {
                     SelectedIndex--;
-                    if(SelectedIndex == -1)
+                    if (SelectedIndex == -1)
                     {
                         SelectedIndex = Options.Length - 1;
                     }

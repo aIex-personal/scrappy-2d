@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 
-namespace WorldOfZuul
+namespace ConsoleClient.GameElements
 {
     public class Room
     {
         public string ShortDescription { get; private set; }
-        public string LongDescription { get; private set;}
+        public string LongDescription { get; private set; }
         public string FirstDescription { get; private set; }
+        public MenuPlain commandMenu { get; private set; }
         public Dictionary<string, Room> Exits { get; private set; } = new();
 
         private bool firstEnter;
@@ -16,15 +19,16 @@ namespace WorldOfZuul
         }
         public void SetFirstEnterFalse()
         {
-            this.firstEnter = false;
+            firstEnter = false;
         }
 
-        public Room(string shortDesc, string longDesc, string firstDescription)
+        public Room(string shortDesc, string firstDescription, string longDesc, MenuPlain commandMenu)
         {
             ShortDescription = shortDesc;
             LongDescription = longDesc;
             firstEnter = true;
             FirstDescription = firstDescription;
+            this.commandMenu = commandMenu;
         }
 
         public void SetExits(Room? north, Room? east, Room? south, Room? west)
