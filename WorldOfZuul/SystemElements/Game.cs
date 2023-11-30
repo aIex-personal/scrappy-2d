@@ -146,7 +146,6 @@ new MenuPlain(
                     "\r\nChoose HELP to print this message again" +
                     "\r\nChoose QUEST to do this room's quest" +
                     "\r\nChosse QUIT to exit the game" +
-                    "\r\nChoose QUEST to do the quest in this room" +
                     "\r\n ", new string[] {"SOUTH ", "LOOK  ", "BACK  ","HELP  ","QUEST ","QUIZ  ", "QUIT  "}));
 
             
@@ -163,7 +162,6 @@ new MenuPlain(
             Parser parser = new();
             PrintWelcome();
             PrintPrologue();
-            //PrintHelp();
 
             string commandString;
             //int commandIndex = -1;
@@ -171,7 +169,7 @@ new MenuPlain(
             while (continuePlaying)
             {
                 Console.WriteLine();
-                //Checking If this is the first time entering this room
+                //Checking If this is the first time the player is entering this room
                 if (currentRoom.FirstEnter)
                 {
                     //If yes, write the Room's first description, and set the room's FirstEnter prop to false
@@ -184,10 +182,10 @@ new MenuPlain(
                 else
                 {
                     //If no, just write the default description of the room. 
-                    Console.Clear();
+                    //Console.Clear();
                     commandString = currentRoom.commandMenu.Run();
-                    TypeLine(currentRoom?.LongDescription);
-                    Console.ReadKey();
+                    //TypeLine(currentRoom?.LongDescription);
+                    //Console.ReadKey();
                 }
                 //Checking If this is the first time netering this room
 
@@ -248,7 +246,7 @@ new MenuPlain(
                         PrintHelp();
                         break;
 
-                    case "quiz ":
+                    case "quiz":
                         Quiz(CreateQuiz());
                         break;
 
@@ -337,6 +335,7 @@ new MenuPlain(
                 Room? room = currentRoom?.Exits[direction];
                 if (room is FinalRoom)
                 {
+                    (room as FinalRoom).SetCanEnterTrue();
                     if ((room as FinalRoom).CanEnter() == true)
                     {
                         previousRoom = currentRoom;
