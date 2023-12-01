@@ -1,9 +1,14 @@
 ﻿using ConsoleClient.GameElements;
 using System;
+using System.IO;
 using System.Net.NetworkInformation;
+using System.Numerics;
 using System.Security;
+using System.Threading.Channels;
 using System.Threading.Tasks.Dataflow;
+using System.Threading.Tasks.Sources;
 using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ConsoleClient.SystemElements
 {
@@ -16,137 +21,137 @@ namespace ConsoleClient.SystemElements
         public static int difficulty = 0; //This variable will store the difficulty level
                                           //Initalized with a 0, Easy = 1, Medium = 2, Hard = 3
 
+        private static bool canLeave;
         public static Player Scrappy;
-        //private int clearCounter;
 
         public Game() //constructor
         {
             Scrappy = new Player();
+            canLeave = false;
             CreateRooms();
         }
 
         private void CreateRooms() //Creating the Rooms, setting their exits and setting the starting room
         {
-            #region oldCode
-            //Creating the rooms, in the constructor there is the name of the room, and after that there is a 
-            //description with the possible doors to open. 
-            //        Room? outside = new("Outside", 
-            //            "You are standing outside of a recycling centre. To the north, there seems to be an entrance to the building.",
-            //            "First Time at outside");
-            //        Room? hall = new("Hall", 
-            //            @"
-            //You find yourself in the hall. To the south is your exit from the building, 
-            //and there are signs above the other doors. To the West, there seems to be a sorting room,
-            //to the North it says E-waste recycling, and to the East, the sign says Paper mill.", 
-            //            "First time at the Hall");
-            //        Room? sortingRoom = new("Sorting Room", "It seems that people in this room are separating garbages. They have different places to collect Paper, Plastic, Organic Junk and Metal. To the North, there is a door that says Upcycling Studio, and to the East there is the Hall",
-            //            "First time at the sorting Room");
-            //        Room? plasticRecycling = new("Plastic Recycling", "In this room people seem to know a lot about the recycling of plastic. To the North, there is a room called Paper Mill, and to the West there is the hall.",
-            //            "First time at the PlasticRecyclingRoom");
-            //        Room? upcyclingStudio = new("Upcycling Studio", "In this room people are creating new things out of old, battle-worn things. The door to the West seems to be an exit to a Composting Garden, the sign on the door to the North says Ocean Cleanup, to the East there is Recycled Art Gallery, and to the South there is a Sorting Room.",
-            //            "First time at the UpcyclingStudio");
-            //        Room? compostingGarden = new("Composting Garden", "In this garden there are loads of used Organical stuff, like the skins of vegetables, the remains of fruits etc. The Garden is surrounded by hedge, so the only entrance is to the East, back to the Upcycling Studio.",
-            //            "First time at the CompostingGarden");
-            //        Room? eWasteRecycling = new("E-Waste Recycling", "In this Room people are repairing old electrical stuff. To the North, there is a Recycled art gallery, to the East there is a Paper Mill, to the South there is the Hall and to the West there is an Upcycling Studio",
-            //            "First time at the eWasteRecycling");
-            //        Room? paperMill = new("Paper Mill","In this room people know a lot about recycling paper. To the North there is a room related to planting trees, to the South there is a room about Plastic Recycling and to the West there is a room about recycling e-waste.",
-            //            "First time at the paperMill");
-            //        Room? oceanCleanup = new("Ocean Cleanup", "People are thinking about solutions for cleaning the ocean from garbage. To the East there is a Recycled art Gallery and to the South there is an Upcycling Studio",
-            //            "First time at the oceanCleanupRoom");
-            //        Room? recycledArtGallery = new("Recycled Art Gallery", "This room seems to be a museum about great actions of recyclement from all around the world. To the North, there is a locked door, to the East there is a room about Planting trees, to the South there is a room about E-waste and to the East there is a room related to cleaning the Oceans ",
-            //            "First time at the recycledArtGallery");
-            //        Room? plantingTrees = new("Planting Trees", "People here are looking for the best way to plant more and more trees all around the world. To the South there is a Paper Mill and to the West there is a Recycled Art Gallery.",
-            //            "First time at the plantingTreesRoom");
-            //        FinalRoom? mysteryRoom = new("Final Mission Room", "WOW", "First time at the mysteryRoom");
 
-            //        //north, east, south, west
-            //        //Setting the relations between rooms. 
-            //        outside.SetExit("north", hall);
-            //        hall.SetExits(eWasteRecycling, plasticRecycling, outside, sortingRoom);
-            //        sortingRoom.SetExits(upcyclingStudio, hall, null, null);
-            //        plasticRecycling.SetExits(paperMill, null, null, hall);
-            //        upcyclingStudio.SetExits(oceanCleanup, eWasteRecycling, sortingRoom, compostingGarden);
-            //        compostingGarden.SetExit("east", upcyclingStudio);
-            //        eWasteRecycling.SetExits(recycledArtGallery, paperMill, hall, upcyclingStudio);
-            //        paperMill.SetExits(plantingTrees, null, plasticRecycling, eWasteRecycling);
-            //        oceanCleanup.SetExits(null, recycledArtGallery, upcyclingStudio, null);
-            //        recycledArtGallery.SetExits(mysteryRoom, plantingTrees, eWasteRecycling, oceanCleanup);
-            //        plantingTrees.SetExits(null, null, paperMill, recycledArtGallery);
-            //        mysteryRoom.SetExit("south", recycledArtGallery);
 
-            //        //Starting  
-            //        currentRoom = outside;
-            #endregion
-            Room outside = new("Outside", @"First time of Scrappy looking around outside the Recycling Centre, his ship is broken.
-There is a door to the North, the sign says Hall.",
+            Room outside = new("Outside", @"Scrappy has landed his ship in front of a building, 
+            but his ship is broken.
+He needs parts and fuel for his spaceship.
+Without them, Scrappy will be stuck on planet Earth,
+And his home planet will get destroyed from the waste for sure.
+Scrappy needs to act fast.
+There is a door to the North, the sign says Hall to the Recycling Centre.
+There is also a wooden board next to the door, with some writing on it.",
 @"Visiting outside, The ship still needs to be repaired, to the North there is the Hall",
 new MenuPlain(
-                    "\r\nOutside" +
-                    "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
-                    "\r\nChoose LOOK for more details" +
-                    "\r\nChoose BACK to go to the previous room" +
-                    "\r\nChoose HELP to print this message again" +
-                    "\r\nChoose QUEST to do this room's quest" +
-                    "\r\nChosse QUIT to exit the game" +
-                    "\r\nChoose QUEST to do the quest in this room" +
-                    "\r\n ", new string[] { "NORTH ", "LOOK  ", "BACK  ", "HELP  ", "QUEST ", "QUIT  " }
+                    "\r\n Outside" +
+                    "\r\n" +
+                    "\r\n LOOK for more details in the room" +
+                    "\r\n BACK to go to the previous room" +
+                    "\r\n HELP to print guide for the game" +
+                    "\r\n HEALTH to see Scrappy's health level" +
+                    "\r\n ITEMS to look into your Inventory" +
+                    "\r\n BOARD to read the wooden board's text" +
+                    "\r\n LEAVE to leave the planet and travel home" +
+                    "\r\n QUIT to exit the game" +
+                    "\r\n ", new string[] { "NORTH ", "LOOK  ", "BACK  ","HEALTH","ITEMS ",  "HELP  ", "READ  ","LEAVE ", "QUIT  " }
                     )
 
 );
 
-            Room hall = new("Hall", @"First time of Scrappy is inside of the Recycling Centre, there is a kind robot.
+            Room hall = new("Hall", @"
+First time of Scrappy is inside of the Recycling Centre, there is a kind robot.
+The robot might know some things about recycling, it would be wise to have a
+conversation with it. 
 There is a door to the North, the sign doesn't say anything.
-To the West, there is a composting centre, to the East there is a recycling room",
-                                           @"You are in the hall, to the North there is a mysterious room, to the East there is 
-a recycling room, to the West there is the composting room, and outside is to the South. ",
+The door seems to be locked for now. 
+To the West, there seems to be a garden, 
+and to the East the sign says: 'Recycling Room'",
+                                           @"
+You are in the hall, there is a robot standing behind the counter, 
+to the North there is a mysterious room, to the East there is 
+a recycling room, to the West there is the composting room and outside is to the South. ",
 new MenuPlain(
-                    "\r\nHall" +
-                    "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
-                    "\r\nChoose LOOK for more details" +
-                    "\r\nChoose BACK to go to the previous room" +
-                    "\r\nChoose HELP to print this message again" +
-                    "\r\nChoose QUEST to do this room's quest" +
-                    "\r\nChosse QUIT to exit the game" +
-                    "\r\nChoose QUEST to do the quest in this room" +
+                    "\r\n Hall" +
+                    "\r\n" +
+                    "\r\n LOOK for more details" +
+                    "\r\n BACK to go to the previous room" +
+                    "\r\n HELP to print guide for the game" +
+                    "\r\n HEALTH to see Scrappy's health level" +
+                    "\r\n ITEMS to look into your Inventory" +
+                    "\r\n QUIT to exit the game" +
                     "\r\n ", new string[] {"NORTH ", "EAST  ", "SOUTH ", "WEST  ",
-                    "LOOK  ", "BACK  ","HELP  ","QUEST ", "QUIT  "}));
+                    "LOOK  ", "BACK  ","HEALTH","ITEMS ","HELP  ","ROBOT ", "QUIT  "}));
 
-            Room compost = new("Composting Garden", @"First Time Scrapp at composting garden. East: Hall",
-                                          @"East: Hall",
+            Room compost = new("Composting Garden", @"Scrappy has entered a garden, but it was different
+from the gardens that he has seen in his life before. 
+On His Planet, Scrappy and his people used to 
+Throw the organic leftovers out to the bin.
+But here, people on Earth are using them to
+grow more plants. How is this possible?
+In the garden there is also a snake, 
+Maybe I should help it collect the junk from the garden.
+The only door is back to East, the Hall.",
+                                          @"
+You are in the Composting garden, the only door
+leads back to the hall. In the garden there is 
+a Snake.",
                                           new MenuPlain(
-                    "\r\nComposting Garden" +
-                    "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
-                    "\r\nChoose LOOK for more details" +
-                    "\r\nChoose BACK to go to the previous room" +
-                    "\r\nChoose HELP to print this message again" +
-                    "\r\nChoose QUEST to do this room's quest" +
-                    "\r\nChosse QUIT to exit the game" +
-                    "\r\nChoose QUEST to do the quest in this room" +
-                    "\r\n ", new string[] { "EAST  ", "LOOK  ", "BACK  ", "HELP  ", "QUEST ", "QUIT  " }));
+                    "\r\n Composting Garden" +
+                    "\r\n" +
+                    "\r\n LOOK for more details" +
+                    "\r\n BACK to go to the previous room" +
+                    "\r\n HELP to print guide for the game" +
+                    "\r\n HEALTH to see Scrappy's health level" +
+                    "\r\n ITEMS to look into your Inventory" +
+                    "\r\n QUIT to exit the game" +
+                    "\r\n SNAKE to help it collect the garbage" +
+                    "\r\n ", new string[] { "EAST  ", "LOOK  ", "BACK  ", "HELP  ","HEALTH","ITEMS ", "SNAKE ", "QUIT  " }));
 
-            Room recyclingRoom = new("Recycling Room", @"First Time at Recycling Room. West: Hall",
-                                          @"Recycling Room. West: Hall",
+            Room recyclingRoom = new("Recycling Room", @"
+Scrappy enters the next room. Here people are
+sorting the garbages out. In Scrappy's planet, people 
+would simply throw everything out to the trash bin,
+but here they are throwing different things out into
+different bins. How strange. They told Scrappy that
+he could help if he wanted to.
+The only door to the West leads back to the Hall",
+                                          @"
+You have entered the Recycling Room. 
+People are sorting things out rather than
+Just throwing them into a bin.
+To the West, there is the door back to the Hall",
                                           new MenuPlain(
-                    "\r\nRecycling Room" +
-                    "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
-                    "\r\nChoose LOOK for more details" +
-                    "\r\nChoose BACK to go to the previous room" +
-                    "\r\nChoose HELP to print this message again" +
-                    "\r\nChoose QUEST to do this room's quest" +
-                    "\r\nChosse QUIT to exit the game" +
-                    "\r\nChoose QUEST to do the quest in this room" +
-                    "\r\n ", new string[] { "WEST  ", "LOOK  ", "BACK  ", "HELP  ", "QUEST ", "QUIT  " }));
-            FinalRoom mysteryRoom = new FinalRoom("Final mission Room", "First Time at Final mission Room blablabla",
-                                                "You have accomplished your mission. You have no things left to do here",
+                    "\r\n Recycling Room" +
+                    "\r\n" +
+                    "\r\n LOOK for more details" +
+                    "\r\n BACK to go to the previous room" +
+                    "\r\n HELP to print this message again" +
+                    "\r\n HEALTH to see Scrappy's health level" +
+                    "\r\n ITEMS to look into your Inventory" +
+                    "\r\n SORT to help sorting the garbage"+
+                    "\r\n QUIT to exit the game" +
+                    "\r\n ", new string[] { "WEST  ", "LOOK  ", "BACK  ","HEALTH","ITEMS ", "HELP  ", "SORT  ", "QUIT  " }));
+            FinalRoom mysteryRoom = new FinalRoom("Final mission Room", 
+                @"
+As Scrappy Enter the Mysterious Room, he can see one thing only.
+A Quiz, a test that he needs to do. The Knowledge, that he has
+received while being on Earth, is going to be put on a test.
+If he is able to do it successfully, there may be a small chance to
+save his planet. But if not, it could be destroyed for all eternity.",
+                                                "Final Mission is here. Take the quiz to be able to save your planet",
                                                new MenuPlain(
                     "\r\n Final Room" +
-                    "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
-                    "\r\nChoose LOOK for more details" +
-                    "\r\nChoose BACK to go to the previous room" +
-                    "\r\nChoose HELP to print this message again" +
-                    "\r\nChoose QUEST to do this room's quest" +
-                    "\r\nChosse QUIT to exit the game" +
-                    "\r\n ", new string[] {"SOUTH ", "LOOK  ", "BACK  ","HELP  ","QUEST ","QUIZ  ", "QUIT  "}));
+                    "\r\n" +
+                    "\r\n LOOK for more details" +
+                    "\r\n BACK to go to the previous room" +
+                    "\r\n HELP to print guide for the game" +
+                    "\r\n HEALTH to see Scrappy's health level" +
+                    "\r\n ITEMS to look into your Inventory" +
+                    "\r\n QUIZ for playing the final quiz" +
+                    "\r\n QUIT to exit the game" +
+                    "\r\n ", new string[] {"SOUTH ", "LOOK  ", "BACK  ", "HEALTH", "ITEMS ","HELP  ","QUIZ  ", "QUIT  "}));
 
             
             outside.SetExit("north", hall);
@@ -161,7 +166,7 @@ new MenuPlain(
         {
             Parser parser = new();
             PrintWelcome();
-            PrintPrologue();
+            //PrintPrologue();
 
             string commandString;
             //int commandIndex = -1;
@@ -174,7 +179,8 @@ new MenuPlain(
                 {
                     //If yes, write the Room's first description, and set the room's FirstEnter prop to false
                     Console.Clear();
-                    TypeLine(currentRoom.FirstDescription);
+                    //TypeLine(currentRoom.FirstDescription);
+                    Console.WriteLine(currentRoom.FirstDescription);
                     Console.ReadKey();
                     currentRoom.SetFirstEnterFalse();
                     commandString = currentRoom.commandMenu.Run();
@@ -250,7 +256,43 @@ new MenuPlain(
                         Quiz(CreateQuiz());
                         break;
 
+                    case "read":
+                        ReadBook();
+                        break;
+                    case "health":
+                        Console.Clear();
+                        TypeLine($"Scrappy's Health: {Scrappy.GetHealth()}");
+                        Console.WriteLine();
+                        Console.WriteLine();
+                        Console.WriteLine("Press SPACE to go back");
+                        Console.ReadKey();
+                        break;
 
+                    case "robot":
+                        RobotConversation();
+                        break;
+                    case "snake":
+                        SnakeMinigame();
+                        break;
+                    case "items":
+                        PrintInventory();
+                        break;
+
+                    case "sort":
+                        SortingMingame();
+                        break;
+                    case "leave":
+                        if (canLeave)
+                        {
+                            EndGameSuccess();
+                        }
+                        else
+                        {
+                            TypeLine(@"You don't have all the items to repairt your broken ship,
+so you cannot leave the planet yet.");
+                            Console.ReadKey();
+                        }
+                        break;
                     default:
                         TypeLine("I don't know what command.");
                         Console.ReadKey();
@@ -263,6 +305,107 @@ new MenuPlain(
             //Thanks the user for playing the game
             TypeLine("Thank you for playing THE WAY BACK HOME: A recycling adventure!!");
         }
+        private static void EndGameSuccess()
+        {
+            Console.Clear(); 
+            TypeLinePrologue(@"Congratulations!
+You have finished the game! 
+You did really well, 
+And helped Scrappy go home
+in order to save his planet.
+Thank you for playing!");
+            Console.ReadKey();
+            Environment.Exit(0);
+        }
+        private static void EndGameFailure()
+        {
+            TypeLinePrologue(@"Sorry, but Scrappy has
+lost all of his health.
+You will have to start
+over in order to help
+him succeed.
+");
+            Console.ReadKey();
+            Environment.Exit(0);
+        }
+        private static void IsHealthZero()
+        {
+            if (Scrappy.GetHealth() == 0)
+            {
+                EndGameFailure();
+            }
+        }
+        private static void SortingMingame()
+        {
+            Console.Clear();
+            Console.WriteLine(@"Here is gonna be the Sorting Minigame. 
+If the player passes, will receive Parts.
+If not, the player will lose a health. 
+It is not made yet, so you have received your item.");
+            if (!Scrappy.inventory.Contains("parts"))
+            {
+                Scrappy.inventory.Add("parts");
+            }
+            Console.ReadKey();
+        }
+        private static void SnakeMinigame()
+        {
+            Console.Clear();
+            Console.WriteLine(@"Here is gonna be the Snake Minigame. 
+If the player passes, will receive biofuel.
+If not, the player will lose a health. 
+It is not made yet, so you have received your item.");
+            if (!Scrappy.inventory.Contains("biofuel"))
+            {
+                Scrappy.inventory.Add("biofuel");
+            }
+            Console.ReadKey();
+        }
+        private static void RobotConversation()
+        {
+            string text = @"
+Greetings, Traveler!
+Step into the Sustainability Nexus, where the journey unfolds.
+Imagine a world where rainwater becomes a resource—a practice known as Rain Harvesting,
+where water conservation dances with nature's abundance. Now, in the recycling cosmos,
+navigate materials like aluminum cans and plastic bottles joining the curbside recycling ballet,
+while the rebellious pizza boxes choose a different stage. Decode the enigma of PET,
+where the code conceals its true form Polyethylene Terephthalate, a key player in the recycling saga.
+Venture globally, and discover the recycling utopia, where Germany reigns, a leader with high rates
+and an efficient waste management symphony. Lastly, in the plastic paradox,
+discern the truth False as biodegradable and compostable plastics take a different route.
+Your quest for environmental enlightenment has just begun. ";
+            Console.Clear();
+            TypeLine(text);
+            Console.ReadKey();
+        }
+        private static void ReadBook()
+        {
+            Console.Clear();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine('\t' + "_______________________________________________________________________________________________________");
+            Console.WriteLine('\t' + "|                                                                                                     |");
+            Console.WriteLine('\t' + "|     Within this living guide, unlock the subtle secrets of sustainability. Immerse yourself in      |");
+            Console.WriteLine('\t' + "|     the mystical transformation of used materials into new treasures, an ancient process            |");
+            Console.WriteLine('\t' + "|     preventing waste and nurturing a greener world. As you weave through the labyrinth of           |");
+            Console.WriteLine('\t' + "|     knowledge, let your gaze linger on the symbols that reveal the widely embraced                  |");
+            Console.WriteLine('\t' + "|     champion among recyclable materials. In this eco-realm, the three mysterious arrows             |");
+            Console.WriteLine('\t' + "|     guide the way, representing the pillars of responsibility—Reduce, Reuse, and Recycle.           |");
+            Console.WriteLine('\t' + "|     Venture further into the composting realms, where nature's alchemy transforms                   |");
+            Console.WriteLine('\t' + "|     organic matter into a recycling ally. Amidst your exploration, discern the proper resting       |");
+            Console.WriteLine('\t' + "|     place for old newspapers and magazines, and in doing so, you unlock the wisdom to               |");
+            Console.WriteLine('\t' + "|     navigate the recycling hierarchy. This eco-adventure is your portal to enlightenment,           |");
+            Console.WriteLine('\t' + "|     and these hidden cues shall be your allies on the path to a sustainable legacy.                 |");
+            Console.WriteLine('\t' + "|                                                                                                     |");
+            Console.WriteLine('\t' + "-------------------------------------------------------------------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Press SPACE to return");
+            Console.ReadKey();
+
+        }
         private static void Quiz(MenuQuiz[] Questions)
         {
             foreach (var menu in Questions)
@@ -272,9 +415,37 @@ new MenuPlain(
                     Scrappy.triviaPoints++;
                 }
             }
-            Console.WriteLine($"Score: {Scrappy.triviaPoints}" );
-            Console.ReadKey();
+            if (Scrappy.triviaPoints > 5)
+            {
+                Console.Clear();
+                TypeLine($"Score: {Scrappy.triviaPoints}");
+                Console.WriteLine(); 
+                Console.WriteLine();
+                TypeLine(@"You have Won! You can leave the planet!
+Go back to your ship and with your new parts
+repair your ship, then travel home
+and Save Your Planet!");
+                canLeave = true;
+                if (!Scrappy.inventory.Contains("Knowledge"))
+                {
+                    Scrappy.inventory.Add("Knowledge");
+                }
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.Clear();
+                TypeLine($"Score: {Scrappy.triviaPoints}");
+                Console.WriteLine();
+                Console.WriteLine();
+                TypeLine("You have failed the quiz. Try again!");
+                Scrappy.LoseHealth();
+                Console.ReadKey();
+                IsHealthZero();
+            }
+            Scrappy.triviaPoints = 0;
         }
+        
         private MenuQuiz[] CreateQuiz()
         {
             MenuQuiz[] questions = new MenuQuiz[]
@@ -335,7 +506,13 @@ new MenuPlain(
                 Room? room = currentRoom?.Exits[direction];
                 if (room is FinalRoom)
                 {
-                    (room as FinalRoom).SetCanEnterTrue();
+                    if (Scrappy.inventory.ReadAll().Count == 5)
+                    {
+                        (room as FinalRoom).SetCanEnterTrue();
+                        Console.Clear();
+                        TypeLine("The mysterious room has opened!");
+                        Console.ReadKey();
+                    }
                     if ((room as FinalRoom).CanEnter() == true)
                     {
                         previousRoom = currentRoom;
@@ -483,14 +660,40 @@ new MenuPlain(
         } //Instead of Console.WriteLine() this can be used for a typeline effect
         private static void PrintHelp()
         {
-            Console.WriteLine("Navigate by typing 'north', 'south', 'east', or 'west'.");
-            Console.WriteLine("Type 'look' for more details.");
-            Console.WriteLine("Type 'back' to go to the previous room.");
-            Console.WriteLine("Type 'help' to print this message again.");
-            Console.WriteLine("Type 'map' to print the minimap");
-            Console.WriteLine("Tpye 'quest' to do this room's quest.");
-            Console.WriteLine("Type 'quit' to exit the game.");
+            Console.Clear();
+            Console.WriteLine(
+                    "\r\n This is the game of The Way Back Home, A Recycling Adventure!" +
+                    "\r\n In this game there are a few rooms, each of them will teach you" +
+                    "\r\n about recycling. You can give commands to Scrappy by choosing " +
+                    "\r\n options from a menu. Your health level is based on your chosen" +
+                    "\r\n difficulty. Whenever you fail to do a task, you will lose a health" +
+                    "\r\n point. If your health level drops to zero, the game is over." +
+                    "\r\n" +
+                    "\r\n Navigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
+                    "\r\n LOOK for more details" +
+                    "\r\n BACK to go to the previous room" +
+                    "\r\n HELP to print this message again" +
+                    "\r\n HEALTH to see Scrappy's health level" + 
+                    "\r\n QUIT to exit the game" +
+                    "\r\n" +
+                    "\r\n also, in rooms there is usually a special and unique thing" +
+                    "\r\n aswell. It could be a minigame you must do, or some information" +
+                    "\r\n for you final challenge. ");
+            Console.WriteLine();
+            Console.WriteLine("Press SPACE to return");
+            Console.ReadKey();
         } //Prints help, might delete later
+        private static void PrintInventory()
+        {
+            Console.Clear();
+            var items = Scrappy.inventory.ReadAll();
+            foreach (var item in items)
+            {
+                TypeLine(item);
+                Console.WriteLine();
+            }
+            Console.ReadKey();
+        }
     }
 }
 

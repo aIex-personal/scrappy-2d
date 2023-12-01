@@ -12,6 +12,20 @@ namespace ConsoleClient.GameElements
         public Inventory()
         {
             items = new List<string>();
+            items.Add("Key to Spaceship");
+            items.Add("Some food");
+            items.Add("Picture of Family");
+        }
+        public bool Contains(string item)
+        {
+            if (items.Contains(item))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         public List<string> ReadAll()
         {
@@ -25,7 +39,7 @@ namespace ConsoleClient.GameElements
         {
             foreach (var item in items) { Console.WriteLine("item"); }
         }
-        public void AddAndSet(string item)
+        public void Add(string item)
         {
             items.Add(item);
         }
