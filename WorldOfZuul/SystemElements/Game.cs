@@ -37,7 +37,7 @@ namespace ConsoleClient.SystemElements
 
 
             Room outside = new("Outside", @"Scrappy has landed his ship in front of a building, 
-            but his ship is broken.
+but his ship is broken.
 He needs parts and fuel for his spaceship.
 Without them, Scrappy will be stuck on planet Earth,
 And his home planet will get destroyed from the waste for sure.
