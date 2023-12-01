@@ -10,7 +10,7 @@ namespace ConsoleClient.SystemElements
     {
         public List<string> ValidCommands { get; } = new List<string> { "north", "east"
             , "south", "west", "look", "back", "quit", "help", "map", "quest", "quiz",
-        "health", "read", "robot", "snake", "items", "sort"};
+        "health", "read", "robot", "snake", "items", "sort", "leave"};
 
         public bool IsValidCommand(string command)
         {

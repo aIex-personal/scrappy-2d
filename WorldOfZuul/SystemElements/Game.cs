@@ -4,7 +4,9 @@ using System.IO;
 using System.Net.NetworkInformation;
 using System.Numerics;
 using System.Security;
+using System.Threading.Channels;
 using System.Threading.Tasks.Dataflow;
+using System.Threading.Tasks.Sources;
 using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -29,16 +31,16 @@ namespace ConsoleClient.SystemElements
 
         private void CreateRooms() //Creating the Rooms, setting their exits and setting the starting room
         {
-           
-//            but his ship is broken.
-//He needs parts and fuel for his spaceship.
-//Without them, Scrappy will be stuck on planet Earth,
-//And his home planet will get destroyed from the waste for sure.
-//Scrappy needs to act fast.
-//There is a door to the North, the sign says Hall to the Recycling Centre.
-//There is also a wooden board next to the door, with some writing on it.
+
+
             Room outside = new("Outside", @"Scrappy has landed his ship in front of a building, 
-",
+            but his ship is broken.
+He needs parts and fuel for his spaceship.
+Without them, Scrappy will be stuck on planet Earth,
+And his home planet will get destroyed from the waste for sure.
+Scrappy needs to act fast.
+There is a door to the North, the sign says Hall to the Recycling Centre.
+There is also a wooden board next to the door, with some writing on it.",
 @"Visiting outside, The ship still needs to be repaired, to the North there is the Hall",
 new MenuPlain(
                     "\r\n Outside" +
@@ -49,8 +51,9 @@ new MenuPlain(
                     "\r\n HEALTH to see Scrappy's health level" +
                     "\r\n ITEMS to look into your Inventory" +
                     "\r\n BOARD to read the wooden board's text" +
+                    "\r\n LEAVE to leave the planet and travel home" +
                     "\r\n QUIT to exit the game" +
-                    "\r\n ", new string[] { "NORTH ", "LOOK  ", "BACK  ","HEALTH","ITEMS ",  "HELP  ", "READ  ", "QUIT  " }
+                    "\r\n ", new string[] { "NORTH ", "LOOK  ", "BACK  ","HEALTH","ITEMS ",  "HELP  ", "READ  ","LEAVE ", "QUIT  " }
                     )
 
 );
@@ -128,8 +131,14 @@ To the West, there is the door back to the Hall",
                     "\r\n SORT to help sorting the garbage"+
                     "\r\n QUIT to exit the game" +
                     "\r\n ", new string[] { "WEST  ", "LOOK  ", "BACK  ","HEALTH","ITEMS ", "HELP  ", "SORT  ", "QUIT  " }));
-            FinalRoom mysteryRoom = new FinalRoom("Final mission Room", "First Time at Final mission Room blablabla",
-                                                "You have accomplished your mission. You have no things left to do here",
+            FinalRoom mysteryRoom = new FinalRoom("Final mission Room", 
+                @"
+As Scrappy Enter the Mysterious Room, he can see one thing only.
+A Quiz, a test that he needs to do. The Knowledge, that he has
+received while being on Earth, is going to be put on a test.
+If he is able to do it successfully, there may be a small chance to
+save his planet. But if not, it could be destroyed for all eternity.",
+                                                "Final Mission is here. Take the quiz to be able to save your planet",
                                                new MenuPlain(
                     "\r\n Final Room" +
                     "\r\n" +
@@ -138,6 +147,7 @@ To the West, there is the door back to the Hall",
                     "\r\n HELP to print guide for the game" +
                     "\r\n HEALTH to see Scrappy's health level" +
                     "\r\n ITEMS to look into your Inventory" +
+                    "\r\n QUIZ for playing the final quiz" +
                     "\r\n QUIT to exit the game" +
                     "\r\n ", new string[] {"SOUTH ", "LOOK  ", "BACK  ", "HEALTH", "ITEMS ","HELP  ","QUIZ  ", "QUIT  "}));
 
@@ -269,6 +279,9 @@ To the West, there is the door back to the Hall",
                     case "sort":
                         SortingMingame();
                         break;
+                    case "leave":
+                        EndGameSuccess();
+                        break;
                     default:
                         TypeLine("I don't know what command.");
                         Console.ReadKey();
@@ -280,6 +293,35 @@ To the West, there is the door back to the Hall",
 
             //Thanks the user for playing the game
             TypeLine("Thank you for playing THE WAY BACK HOME: A recycling adventure!!");
+        }
+        private static void EndGameSuccess()
+        {
+            TypeLinePrologue(@"Congratulations!
+You have finished the game! 
+You did really well, 
+And helped Scrappy go home
+in order to save his planet.
+Thank you for playing!");
+            Console.ReadKey();
+            Environment.Exit(0);
+        }
+        private static void EndGameFailure()
+        {
+            TypeLinePrologue(@"Sorry, but Scrappy has
+lost all of his health.
+You will have to start
+over in order to help
+him succeed.
+");
+            Console.ReadKey();
+            Environment.Exit(0);
+        }
+        private void IsHealthZero()
+        {
+            if (Scrappy.GetHealth() == 0)
+            {
+                EndGameFailure();
+            }
         }
         private static void SortingMingame()
         {
@@ -361,9 +403,34 @@ Your quest for environmental enlightenment has just begun. ";
                     Scrappy.triviaPoints++;
                 }
             }
-            Console.WriteLine($"Score: {Scrappy.triviaPoints}" );
-            Console.ReadKey();
+            if (Scrappy.triviaPoints > 5)
+            {
+                Console.Clear();
+                TypeLine($"Score: {Scrappy.triviaPoints}");
+                Console.WriteLine(); 
+                Console.WriteLine();
+                TypeLine(@"You have Won! You can leave the planet!
+Go back to your ship and with your new parts
+repairt your ship, then travel home
+and Save Your Planet!");
+                if (!Scrappy.inventory.Contains("Knowledge"))
+                {
+                    Scrappy.inventory.Add("Knowledge");
+                }
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.Clear();
+                TypeLine($"Score: {Scrappy.triviaPoints}");
+                Console.WriteLine();
+                Console.WriteLine();
+                TypeLine("You have failed the quiz. Try again!");
+                Scrappy.LoseHealth();
+                Console.ReadKey();
+            }
         }
+        
         private MenuQuiz[] CreateQuiz()
         {
             MenuQuiz[] questions = new MenuQuiz[]
@@ -424,7 +491,13 @@ Your quest for environmental enlightenment has just begun. ";
                 Room? room = currentRoom?.Exits[direction];
                 if (room is FinalRoom)
                 {
-                    (room as FinalRoom).SetCanEnterTrue();
+                    if (Scrappy.inventory.ReadAll().Count == 5)
+                    {
+                        (room as FinalRoom).SetCanEnterTrue();
+                        Console.Clear();
+                        TypeLine("The mysterious room has opened!");
+                        Console.ReadKey();
+                    }
                     if ((room as FinalRoom).CanEnter() == true)
                     {
                         previousRoom = currentRoom;

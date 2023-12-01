@@ -17,6 +17,10 @@ namespace ConsoleClient.GameElements
         {
             health = value;
         }
+        public void LoseHealth()
+        {
+            health--;
+        }
         public Player()
         {
             health = -1;
