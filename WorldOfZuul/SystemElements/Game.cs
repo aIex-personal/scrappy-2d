@@ -21,11 +21,13 @@ namespace ConsoleClient.SystemElements
         public static int difficulty = 0; //This variable will store the difficulty level
                                           //Initalized with a 0, Easy = 1, Medium = 2, Hard = 3
 
+        private static bool canLeave;
         public static Player Scrappy;
 
         public Game() //constructor
         {
             Scrappy = new Player();
+            canLeave = false;
             CreateRooms();
         }
 
@@ -280,7 +282,16 @@ save his planet. But if not, it could be destroyed for all eternity.",
                         SortingMingame();
                         break;
                     case "leave":
-                        EndGameSuccess();
+                        if (canLeave)
+                        {
+                            EndGameSuccess();
+                        }
+                        else
+                        {
+                            TypeLine(@"You don't have all the items to repairt your broken ship,
+so you cannot leave the planet yet.");
+                            Console.ReadKey();
+                        }
                         break;
                     default:
                         TypeLine("I don't know what command.");
@@ -296,6 +307,7 @@ save his planet. But if not, it could be destroyed for all eternity.",
         }
         private static void EndGameSuccess()
         {
+            Console.Clear(); 
             TypeLinePrologue(@"Congratulations!
 You have finished the game! 
 You did really well, 
@@ -316,7 +328,7 @@ him succeed.
             Console.ReadKey();
             Environment.Exit(0);
         }
-        private void IsHealthZero()
+        private static void IsHealthZero()
         {
             if (Scrappy.GetHealth() == 0)
             {
@@ -411,8 +423,9 @@ Your quest for environmental enlightenment has just begun. ";
                 Console.WriteLine();
                 TypeLine(@"You have Won! You can leave the planet!
 Go back to your ship and with your new parts
-repairt your ship, then travel home
+repair your ship, then travel home
 and Save Your Planet!");
+                canLeave = true;
                 if (!Scrappy.inventory.Contains("Knowledge"))
                 {
                     Scrappy.inventory.Add("Knowledge");
@@ -428,7 +441,9 @@ and Save Your Planet!");
                 TypeLine("You have failed the quiz. Try again!");
                 Scrappy.LoseHealth();
                 Console.ReadKey();
+                IsHealthZero();
             }
+            Scrappy.triviaPoints = 0;
         }
         
         private MenuQuiz[] CreateQuiz()

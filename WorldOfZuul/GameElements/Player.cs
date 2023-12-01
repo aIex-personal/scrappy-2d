@@ -10,7 +10,7 @@ namespace ConsoleClient.GameElements
     {
         private int health;
         public Inventory inventory;
-        public int triviaPoints;
+        public int triviaPoints ;
         public int GetHealth()
         { return health; }
         public void SetHealth(int value)
