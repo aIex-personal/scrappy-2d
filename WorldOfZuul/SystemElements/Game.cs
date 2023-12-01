@@ -96,7 +96,7 @@ new MenuPlain(
                     "\r\n" +
                     "\r\n LOOK for more details in the room" +
                     "\r\n BACK to go to the previous room" +
-                    "\r\n HELP to print this message again" +
+                    "\r\n HELP to print guide for the game" +
                     "\r\n HEALTH to see Scrappy's health level" +
                     "\r\n BOARD to read the wooden board's text" +
                     "\r\n QUIT to exit the game" +
@@ -122,10 +122,8 @@ new MenuPlain(
                     "\r\n" +
                     "\r\n LOOK for more details" +
                     "\r\n BACK to go to the previous room" +
-                    "\r\n HELP to print this message again" +
-                    "\r\n QUEST to do this room's quest" +
+                    "\r\n HELP to print help" +
                     "\r\n QUIT to exit the game" +
-                    "\r\n QUEST to do the quest in this room" +
                     "\r\n ", new string[] {"NORTH ", "EAST  ", "SOUTH ", "WEST  ",
                     "LOOK  ", "BACK  ","HELP  ","QUEST ", "QUIT  "}));
 
@@ -136,7 +134,7 @@ new MenuPlain(
                     "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
                     "\r\nChoose LOOK for more details" +
                     "\r\nChoose BACK to go to the previous room" +
-                    "\r\nChoose HELP to print this message again" +
+                    "\r\nChoose HELP to print guide for the game" +
                     "\r\nChoose QUEST to do this room's quest" +
                     "\r\nChosse QUIT to exit the game" +
                     "\r\nChoose QUEST to do the quest in this room" +
