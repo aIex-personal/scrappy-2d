@@ -166,10 +166,9 @@ save his planet. But if not, it could be destroyed for all eternity.",
         {
             Parser parser = new();
             PrintWelcome();
-            //PrintPrologue();
+            PrintPrologue();
 
             string commandString;
-            //int commandIndex = -1;
             bool continuePlaying = true;
             while (continuePlaying)
             {
@@ -179,8 +178,8 @@ save his planet. But if not, it could be destroyed for all eternity.",
                 {
                     //If yes, write the Room's first description, and set the room's FirstEnter prop to false
                     Console.Clear();
-                    //TypeLine(currentRoom.FirstDescription);
-                    Console.WriteLine(currentRoom.FirstDescription);
+                    TypeLine(currentRoom.FirstDescription);
+                    //Console.WriteLine(currentRoom.FirstDescription);
                     Console.ReadKey();
                     currentRoom.SetFirstEnterFalse();
                     commandString = currentRoom.commandMenu.Run();
@@ -188,10 +187,7 @@ save his planet. But if not, it could be destroyed for all eternity.",
                 else
                 {
                     //If no, just write the default description of the room. 
-                    //Console.Clear();
                     commandString = currentRoom.commandMenu.Run();
-                    //TypeLine(currentRoom?.LongDescription);
-                    //Console.ReadKey();
                 }
                 //Checking If this is the first time netering this room
 
