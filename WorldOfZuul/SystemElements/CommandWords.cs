@@ -8,7 +8,9 @@ namespace ConsoleClient.SystemElements
 {
     public class CommandWords
     {
-        public List<string> ValidCommands { get; } = new List<string> { "north", "east", "south", "west", "look", "back", "quit", "help", "map", "quest", "quiz" };
+        public List<string> ValidCommands { get; } = new List<string> { "north", "east"
+            , "south", "west", "look", "back", "quit", "help", "map", "quest", "quiz",
+        "health", "read"};
 
         public bool IsValidCommand(string command)
         {

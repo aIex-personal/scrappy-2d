@@ -1,9 +1,12 @@
 ﻿using ConsoleClient.GameElements;
 using System;
+using System.IO;
 using System.Net.NetworkInformation;
+using System.Numerics;
 using System.Security;
 using System.Threading.Tasks.Dataflow;
 using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ConsoleClient.SystemElements
 {
@@ -77,37 +80,52 @@ namespace ConsoleClient.SystemElements
             //        //Starting  
             //        currentRoom = outside;
             #endregion
-            Room outside = new("Outside", @"First time of Scrappy looking around outside the Recycling Centre, his ship is broken.
-There is a door to the North, the sign says Hall.",
+
+//            but his ship is broken.
+//He needs parts and fuel for his spaceship.
+//Without them, Scrappy will be stuck on planet Earth,
+//And his home planet will get destroyed from the waste for sure.
+//Scrappy needs to act fast.
+//There is a door to the North, the sign says Hall to the Recycling Centre.
+//There is also a wooden board next to the door, with some writing on it.
+            Room outside = new("Outside", @"Scrappy has landed his ship in front of a building, 
+",
 @"Visiting outside, The ship still needs to be repaired, to the North there is the Hall",
 new MenuPlain(
-                    "\r\nOutside" +
-                    "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
-                    "\r\nChoose LOOK for more details" +
-                    "\r\nChoose BACK to go to the previous room" +
-                    "\r\nChoose HELP to print this message again" +
-                    "\r\nChoose QUEST to do this room's quest" +
-                    "\r\nChosse QUIT to exit the game" +
-                    "\r\nChoose QUEST to do the quest in this room" +
-                    "\r\n ", new string[] { "NORTH ", "LOOK  ", "BACK  ", "HELP  ", "QUEST ", "QUIT  " }
+                    "\r\n Outside" +
+                    "\r\n" +
+                    "\r\n LOOK for more details in the room" +
+                    "\r\n BACK to go to the previous room" +
+                    "\r\n HELP to print this message again" +
+                    "\r\n HEALTH to see Scrappy's health level" +
+                    "\r\n BOARD to read the wooden board's text" +
+                    "\r\n QUIT to exit the game" +
+                    "\r\n ", new string[] { "NORTH ", "LOOK  ", "BACK  ","HEALTH", "HELP  ", "READ  ", "QUIT  " }
                     )
 
 );
 
-            Room hall = new("Hall", @"First time of Scrappy is inside of the Recycling Centre, there is a kind robot.
+            Room hall = new("Hall", @"
+First time of Scrappy is inside of the Recycling Centre, there is a kind robot.
+The robot might know some things about recycling, it would be wise to have a
+conversation with it. 
 There is a door to the North, the sign doesn't say anything.
-To the West, there is a composting centre, to the East there is a recycling room",
-                                           @"You are in the hall, to the North there is a mysterious room, to the East there is 
-a recycling room, to the West there is the composting room, and outside is to the South. ",
+The door seems to be locked for now. 
+To the West, there seems to be a garden, 
+and to the East the sign says: 'Recycling Room'",
+                                           @"
+You are in the hall, there is a robot standing behind the counter, 
+to the North there is a mysterious room, to the East there is 
+a recycling room, to the West there is the composting room and outside is to the South. ",
 new MenuPlain(
-                    "\r\nHall" +
-                    "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
-                    "\r\nChoose LOOK for more details" +
-                    "\r\nChoose BACK to go to the previous room" +
-                    "\r\nChoose HELP to print this message again" +
-                    "\r\nChoose QUEST to do this room's quest" +
-                    "\r\nChosse QUIT to exit the game" +
-                    "\r\nChoose QUEST to do the quest in this room" +
+                    "\r\n Hall" +
+                    "\r\n" +
+                    "\r\n LOOK for more details" +
+                    "\r\n BACK to go to the previous room" +
+                    "\r\n HELP to print this message again" +
+                    "\r\n QUEST to do this room's quest" +
+                    "\r\n QUIT to exit the game" +
+                    "\r\n QUEST to do the quest in this room" +
                     "\r\n ", new string[] {"NORTH ", "EAST  ", "SOUTH ", "WEST  ",
                     "LOOK  ", "BACK  ","HELP  ","QUEST ", "QUIT  "}));
 
@@ -161,7 +179,7 @@ new MenuPlain(
         {
             Parser parser = new();
             PrintWelcome();
-            PrintPrologue();
+            //PrintPrologue();
 
             string commandString;
             //int commandIndex = -1;
@@ -250,6 +268,17 @@ new MenuPlain(
                         Quiz(CreateQuiz());
                         break;
 
+                    case "read":
+                        ReadBook();
+                        break;
+                    case "health":
+                        Console.Clear();
+                        TypeLine($"Scrappy's Health: {Scrappy.GetHealth()}");
+                        Console.WriteLine();
+                        Console.WriteLine();
+                        Console.WriteLine("Press SPACE to go back");
+                        Console.ReadKey();
+                        break;
 
                     default:
                         TypeLine("I don't know what command.");
@@ -262,6 +291,33 @@ new MenuPlain(
 
             //Thanks the user for playing the game
             TypeLine("Thank you for playing THE WAY BACK HOME: A recycling adventure!!");
+        }
+        private static void ReadBook()
+        {
+            Console.Clear();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine('\t' + "_______________________________________________________________________________________________________");
+            Console.WriteLine('\t' + "|                                                                                                     |");
+            Console.WriteLine('\t' + "|     Within this living guide, unlock the subtle secrets of sustainability. Immerse yourself in      |");
+            Console.WriteLine('\t' + "|     the mystical transformation of used materials into new treasures, an ancient process            |");
+            Console.WriteLine('\t' + "|     preventing waste and nurturing a greener world. As you weave through the labyrinth of           |");
+            Console.WriteLine('\t' + "|     knowledge, let your gaze linger on the symbols that reveal the widely embraced                  |");
+            Console.WriteLine('\t' + "|     champion among recyclable materials. In this eco-realm, the three mysterious arrows             |");
+            Console.WriteLine('\t' + "|     guide the way, representing the pillars of responsibility—Reduce, Reuse, and Recycle.           |");
+            Console.WriteLine('\t' + "|     Venture further into the composting realms, where nature's alchemy transforms                   |");
+            Console.WriteLine('\t' + "|     organic matter into a recycling ally. Amidst your exploration, discern the proper resting       |");
+            Console.WriteLine('\t' + "|     place for old newspapers and magazines, and in doing so, you unlock the wisdom to               |");
+            Console.WriteLine('\t' + "|     navigate the recycling hierarchy. This eco-adventure is your portal to enlightenment,           |");
+            Console.WriteLine('\t' + "|     and these hidden cues shall be your allies on the path to a sustainable legacy.                 |");
+            Console.WriteLine('\t' + "|                                                                                                     |");
+            Console.WriteLine('\t' + "-------------------------------------------------------------------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Press SPACE to return");
+            Console.ReadKey();
+
         }
         private static void Quiz(MenuQuiz[] Questions)
         {
@@ -483,13 +539,28 @@ new MenuPlain(
         } //Instead of Console.WriteLine() this can be used for a typeline effect
         private static void PrintHelp()
         {
-            Console.WriteLine("Navigate by typing 'north', 'south', 'east', or 'west'.");
-            Console.WriteLine("Type 'look' for more details.");
-            Console.WriteLine("Type 'back' to go to the previous room.");
-            Console.WriteLine("Type 'help' to print this message again.");
-            Console.WriteLine("Type 'map' to print the minimap");
-            Console.WriteLine("Tpye 'quest' to do this room's quest.");
-            Console.WriteLine("Type 'quit' to exit the game.");
+            Console.Clear();
+            Console.WriteLine(
+                    "\r\n This is the game of The Way Back Home, A Recycling Adventure!" +
+                    "\r\n In this game there are a few rooms, each of them will teach you" +
+                    "\r\n about recycling. You can give commands to Scrappy by choosing " +
+                    "\r\n options from a menu. Your health level is based on your chosen" +
+                    "\r\n difficulty. Whenever you fail to do a task, you will lose a health" +
+                    "\r\n point. If your health level drops to zero, the game is over." +
+                    "\r\n" +
+                    "\r\n Navigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
+                    "\r\n LOOK for more details" +
+                    "\r\n BACK to go to the previous room" +
+                    "\r\n HELP to print this message again" +
+                    "\r\n HEALTH to see Scrappy's health level" + 
+                    "\r\n QUIT to exit the game" +
+                    "\r\n" +
+                    "\r\n also, in rooms there is usually a special and unique thing" +
+                    "\r\n aswell. It could be a minigame you must do, or some information" +
+                    "\r\n for you final challenge. ");
+            Console.WriteLine();
+            Console.WriteLine("Press SPACE to return");
+            Console.ReadKey();
         } //Prints help, might delete later
     }
 }
