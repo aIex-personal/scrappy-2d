@@ -122,36 +122,35 @@ new MenuPlain(
                     "\r\n" +
                     "\r\n LOOK for more details" +
                     "\r\n BACK to go to the previous room" +
-                    "\r\n HELP to print help" +
+                    "\r\n HELP to print guide for the game" +
                     "\r\n QUIT to exit the game" +
                     "\r\n ", new string[] {"NORTH ", "EAST  ", "SOUTH ", "WEST  ",
-                    "LOOK  ", "BACK  ","HELP  ","QUEST ", "QUIT  "}));
+                    "LOOK  ", "BACK  ","HELP  ","ROBOT ", "QUIT  "}));
 
             Room compost = new("Composting Garden", @"First Time Scrapp at composting garden. East: Hall",
                                           @"East: Hall",
                                           new MenuPlain(
-                    "\r\nComposting Garden" +
-                    "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
-                    "\r\nChoose LOOK for more details" +
-                    "\r\nChoose BACK to go to the previous room" +
-                    "\r\nChoose HELP to print guide for the game" +
-                    "\r\nChoose QUEST to do this room's quest" +
-                    "\r\nChosse QUIT to exit the game" +
-                    "\r\nChoose QUEST to do the quest in this room" +
-                    "\r\n ", new string[] { "EAST  ", "LOOK  ", "BACK  ", "HELP  ", "QUEST ", "QUIT  " }));
+                    "\r\n Composting Garden" +
+                    "\r\n" +
+                    "\r\n LOOK for more details" +
+                    "\r\n BACK to go to the previous room" +
+                    "\r\n HELP to print guide for the game" +
+                    "\r\n QUEST to do this room's quest" +
+                    "\r\n QUIT to exit the game" +
+                    "\r\n QUEST to do the quest in this room" +
+                    "\r\n ", new string[] { "EAST  ", "LOOK  ", "BACK  ", "HELP  ", "SNAKE ", "QUIT  " }));
 
             Room recyclingRoom = new("Recycling Room", @"First Time at Recycling Room. West: Hall",
                                           @"Recycling Room. West: Hall",
                                           new MenuPlain(
-                    "\r\nRecycling Room" +
-                    "\r\nNavigate by choosing 'NORTH', 'SOUTH', 'EAST', or 'WEST'" +
-                    "\r\nChoose LOOK for more details" +
-                    "\r\nChoose BACK to go to the previous room" +
-                    "\r\nChoose HELP to print this message again" +
-                    "\r\nChoose QUEST to do this room's quest" +
-                    "\r\nChosse QUIT to exit the game" +
-                    "\r\nChoose QUEST to do the quest in this room" +
-                    "\r\n ", new string[] { "WEST  ", "LOOK  ", "BACK  ", "HELP  ", "QUEST ", "QUIT  " }));
+                    "\r\n Recycling Room" +
+                    "\r\n" +
+                    "\r\n LOOK for more details" +
+                    "\r\n BACK to go to the previous room" +
+                    "\r\n HELP to print this message again" +
+                    "\r\n QUIT to exit the game" +
+                    "\r\n QUEST to do the quest in this room" +
+                    "\r\n ", new string[] { "WEST  ", "LOOK  ", "BACK  ", "HELP  ", "SORT  ", "QUIT  " }));
             FinalRoom mysteryRoom = new FinalRoom("Final mission Room", "First Time at Final mission Room blablabla",
                                                 "You have accomplished your mission. You have no things left to do here",
                                                new MenuPlain(
@@ -278,6 +277,9 @@ new MenuPlain(
                         Console.ReadKey();
                         break;
 
+                    case "robot":
+                        RobotConversation();
+                        break;
                     default:
                         TypeLine("I don't know what command.");
                         Console.ReadKey();
@@ -289,6 +291,24 @@ new MenuPlain(
 
             //Thanks the user for playing the game
             TypeLine("Thank you for playing THE WAY BACK HOME: A recycling adventure!!");
+        }
+        private static void RobotConversation()
+        {
+            string text = @"
+Greetings, Traveler!
+Step into the Sustainability Nexus, where the journey unfolds.
+Imagine a world where rainwater becomes a resource—a practice known as Rain Harvesting,
+where water conservation dances with nature's abundance. Now, in the recycling cosmos,
+navigate materials like aluminum cans and plastic bottles joining the curbside recycling ballet,
+while the rebellious pizza boxes choose a different stage. Decode the enigma of PET,
+where the code conceals its true form Polyethylene Terephthalate, a key player in the recycling saga.
+Venture globally, and discover the recycling utopia, where Germany reigns, a leader with high rates
+and an efficient waste management symphony. Lastly, in the plastic paradox,
+discern the truth False as biodegradable and compostable plastics take a different route.
+Your quest for environmental enlightenment has just begun. ";
+            Console.Clear();
+            TypeLine(text);
+            Console.ReadKey();
         }
         private static void ReadBook()
         {
