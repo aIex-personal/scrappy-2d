@@ -112,7 +112,11 @@ but here they are throwing different things out into
 different bins. How strange. They told Scrappy that
 he could help if he wanted to.
 The only door to the West leads back to the Hall",
-                                          @"Recycling Room. West: Hall",
+                                          @"
+You have entered the Recycling Room. 
+People are sorting things out rather than
+Just throwing them into a bin.
+To the West, there is the door back to the Hall",
                                           new MenuPlain(
                     "\r\n Recycling Room" +
                     "\r\n" +
@@ -121,6 +125,7 @@ The only door to the West leads back to the Hall",
                     "\r\n HELP to print this message again" +
                     "\r\n HEALTH to see Scrappy's health level" +
                     "\r\n ITEMS to look into your Inventory" +
+                    "\r\n SORT to help sorting the garbage"+
                     "\r\n QUIT to exit the game" +
                     "\r\n ", new string[] { "WEST  ", "LOOK  ", "BACK  ","HEALTH","ITEMS ", "HELP  ", "SORT  ", "QUIT  " }));
             FinalRoom mysteryRoom = new FinalRoom("Final mission Room", "First Time at Final mission Room blablabla",
@@ -260,6 +265,10 @@ The only door to the West leads back to the Hall",
                     case "items":
                         PrintInventory();
                         break;
+
+                    case "sort":
+                        SortingMingame();
+                        break;
                     default:
                         TypeLine("I don't know what command.");
                         Console.ReadKey();
@@ -271,6 +280,19 @@ The only door to the West leads back to the Hall",
 
             //Thanks the user for playing the game
             TypeLine("Thank you for playing THE WAY BACK HOME: A recycling adventure!!");
+        }
+        private static void SortingMingame()
+        {
+            Console.Clear();
+            Console.WriteLine(@"Here is gonna be the Sorting Minigame. 
+If the player passes, will receive Parts.
+If not, the player will lose a health. 
+It is not made yet, so you have received your item.");
+            if (!Scrappy.inventory.Contains("parts"))
+            {
+                Scrappy.inventory.Add("parts");
+            }
+            Console.ReadKey();
         }
         private static void SnakeMinigame()
         {
