@@ -250,12 +250,13 @@ save his planet. But if not, it could be destroyed for all eternity.",
                         break;
 
                     case "quiz":
-                        Quiz(CreateQuiz());
+                        Quiz();
                         break;
 
                     case "read":
                         ReadBook();
                         break;
+
                     case "health":
                         Console.Clear();
                         TypeLine($"Scrappy's Health: {Scrappy.GetHealth()}");
@@ -268,9 +269,11 @@ save his planet. But if not, it could be destroyed for all eternity.",
                     case "robot":
                         RobotConversation();
                         break;
+
                     case "snake":
                         SnakeMinigame();
                         break;
+
                     case "items":
                         PrintInventory();
                         break;
@@ -278,6 +281,7 @@ save his planet. But if not, it could be destroyed for all eternity.",
                     case "sort":
                         SortingMingame();
                         break;
+
                     case "leave":
                         if (canLeave)
                         {
@@ -285,11 +289,12 @@ save his planet. But if not, it could be destroyed for all eternity.",
                         }
                         else
                         {
-                            TypeLine(@"You don't have all the items to repairt your broken ship,
+                            TypeLine(@"You don't have all the items to repair your broken ship,
 so you cannot leave the planet yet.");
                             Console.ReadKey();
                         }
                         break;
+
                     default:
                         TypeLine("I don't know what command.");
                         Console.ReadKey();
@@ -334,29 +339,124 @@ him succeed.
         }
         private static void SortingMingame()
         {
-            Console.Clear();
-            Console.WriteLine(@"Here is gonna be the Sorting Minigame. 
-If the player passes, will receive Parts.
-If not, the player will lose a health. 
-It is not made yet, so you have received your item.");
-            if (!Scrappy.inventory.Contains("parts"))
+            MenuQuiz[] questions = new MenuQuiz[]
             {
-                Scrappy.inventory.Add("parts");
+                new MenuQuiz("How can you prepare plastic containers for recycling?",
+                new string[]{ "A) Leave the lids on", "B) Rinse them clean", "C) Paint them for decoration"},
+                "B) Rinse them clean"),
+                new MenuQuiz("Which type of paper product is commonly accepted in recycling bins?",
+                new string[]{ "A) Soiled pizza boxes", "B) Shredded paper", "C) Cardboard boxes"},
+                "C) Cardboard boxes"),
+                new MenuQuiz("What's a good practice before recycling aluminum cans?",
+                new string[]{ "A) Flatten them", "B) Leave them uncrushed", "C) Use them to store other items"},
+                "A) Flatten them"),
+                new MenuQuiz("How should you handle broken glass items for recycling?",
+                new string[]{ "A) Place them directly in the recycling bin",
+                    "B) Wrap them in newspaper and dispose of them in the trash",
+                    "C) Take them to a glass recycling center"},
+                "B) Wrap them in newspaper and dispose of them in the trash"),
+                new MenuQuiz("What should you do with old electronic devices like computers and monitors?",
+                new string[]{ "A) Throw them in the regular trash",
+                    "B) Recycle them at a specialized facility",
+                    "C) Donate them to a local charity"},
+                "B) Recycle them at a specialized facility")
+
+            };
+            foreach (var menu in questions)
+            {
+                if (menu.Run() == 1)
+                {
+                    Scrappy.triviaPoints++;
+                }
             }
-            Console.ReadKey();
+            if (Scrappy.triviaPoints >= 3)
+            {
+                Console.Clear();
+                TypeLine($"Score: {Scrappy.triviaPoints}");
+                Console.WriteLine();
+                Console.WriteLine();
+                TypeLine(@"You have successfully made this quiz!
+You are one step closer to get 
+All the Knowledge that you need
+To save Scrappy's planet!");
+                canLeave = true;
+                if (!Scrappy.inventory.Contains("SpaceShip Parts"))
+                {
+                    Scrappy.inventory.Add("SpaceShip Parts");
+                }
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.Clear();
+                TypeLine($"Score: {Scrappy.triviaPoints}");
+                Console.WriteLine();
+                Console.WriteLine();
+                TypeLine("You have failed the quiz. Try again!");
+                Scrappy.LoseHealth();
+                Console.ReadKey();
+                IsHealthZero();
+            }
+            Scrappy.triviaPoints = 0;
         }
         private static void SnakeMinigame()
         {
-            Console.Clear();
-            Console.WriteLine(@"Here is gonna be the Snake Minigame. 
-If the player passes, will receive biofuel.
-If not, the player will lose a health. 
-It is not made yet, so you have received your item.");
-            if (!Scrappy.inventory.Contains("biofuel"))
+            
+            MenuQuiz[] questions = new MenuQuiz[]
             {
-                Scrappy.inventory.Add("biofuel");
+                new MenuQuiz("What is the primary purpose of composting in a garden?",
+                new string[]{ "A) Fertilizing plants", "B) Creating a cozy atmosphere", "C) Attracting butterflies"},
+                "A) Fertilizing plants"),
+                new MenuQuiz("Which of the following is a green (nitrogen-rich) material suitable for composting?",
+                new string[]{ "A) Dry leaves", "B) Coffee grounds", "C) Twigs"},
+                "B) Coffee grounds"),
+                new MenuQuiz("Why is it important to regularly turn or mix compost?",
+                new string[]{ "A) To keep it warm", "B) To aerate and speed up decomposition", "C) To attract worms"},
+                "B) To aerate and speed up decomposition"),
+                new MenuQuiz("If your compost pile smells bad, what might be the issue?",
+                new string[]{ "A) It needs more water", "B) It has too much brown material", "C) It's too small"},
+                "A) It needs more water"),
+                new MenuQuiz("Besides enriching the soil, what is another benefit of composting?",
+                new string[]{ "A) Repelling pests", "B) Reducing landfill waste", "C) Attracting birds"},
+                "B) Reducing landfill waste")
+
+            };
+            foreach (var menu in questions)
+            {
+                if (menu.Run() == 1)
+                {
+                    Scrappy.triviaPoints++;
+                }
             }
-            Console.ReadKey();
+            if (Scrappy.triviaPoints >= 3)
+            {
+                Console.Clear();
+                TypeLine($"Score: {Scrappy.triviaPoints}");
+                Console.WriteLine();
+                Console.WriteLine();
+                TypeLine(@"You have successfully made this quiz!
+You are one step closer to get 
+All the Knowledge that you need
+To save Scrappy's planet!");
+                canLeave = true;
+                if (!Scrappy.inventory.Contains("Biofuel"))
+                {
+                    Scrappy.inventory.Add("Biofuel");
+                }
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.Clear();
+                TypeLine($"Score: {Scrappy.triviaPoints}");
+                Console.WriteLine();
+                Console.WriteLine();
+                TypeLine("You have failed the quiz. Try again!");
+                Scrappy.LoseHealth();
+                Console.ReadKey();
+                IsHealthZero();
+            }
+            Scrappy.triviaPoints = 0;
         }
         private static void RobotConversation()
         {
@@ -403,47 +503,7 @@ Your quest for environmental enlightenment has just begun. ";
             Console.ReadKey();
 
         }
-        private static void Quiz(MenuQuiz[] Questions)
-        {
-            foreach (var menu in Questions)
-            {
-                if (menu.Run() == 1)
-                {
-                    Scrappy.triviaPoints++;
-                }
-            }
-            if (Scrappy.triviaPoints > 5)
-            {
-                Console.Clear();
-                TypeLine($"Score: {Scrappy.triviaPoints}");
-                Console.WriteLine(); 
-                Console.WriteLine();
-                TypeLine(@"You have Won! You can leave the planet!
-Go back to your ship and with your new parts
-repair your ship, then travel home
-and Save Your Planet!");
-                canLeave = true;
-                if (!Scrappy.inventory.Contains("Knowledge"))
-                {
-                    Scrappy.inventory.Add("Knowledge");
-                }
-                Console.ReadKey();
-            }
-            else
-            {
-                Console.Clear();
-                TypeLine($"Score: {Scrappy.triviaPoints}");
-                Console.WriteLine();
-                Console.WriteLine();
-                TypeLine("You have failed the quiz. Try again!");
-                Scrappy.LoseHealth();
-                Console.ReadKey();
-                IsHealthZero();
-            }
-            Scrappy.triviaPoints = 0;
-        }
-        
-        private MenuQuiz[] CreateQuiz()
+        private static void Quiz()
         {
             MenuQuiz[] questions = new MenuQuiz[]
             {
@@ -493,8 +553,44 @@ and Save Your Planet!");
                 , "B) False"),
 
             };
-            return questions;
+            foreach (var menu in questions)
+            {
+                if (menu.Run() == 1)
+                {
+                    Scrappy.triviaPoints++;
+                }
+            }
+            if (Scrappy.triviaPoints > 5)
+            {
+                Console.Clear();
+                TypeLine($"Score: {Scrappy.triviaPoints}");
+                Console.WriteLine(); 
+                Console.WriteLine();
+                TypeLine(@"You have Won! You can leave the planet!
+Go back to your ship and with your new parts
+repair your ship, then travel home
+and Save Your Planet!");
+                canLeave = true;
+                if (!Scrappy.inventory.Contains("Knowledge"))
+                {
+                    Scrappy.inventory.Add("Knowledge");
+                }
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.Clear();
+                TypeLine($"Score: {Scrappy.triviaPoints}");
+                Console.WriteLine();
+                Console.WriteLine();
+                TypeLine("You have failed the quiz. Try again!");
+                Scrappy.LoseHealth();
+                Console.ReadKey();
+                IsHealthZero();
+            }
+            Scrappy.triviaPoints = 0;
         }
+        
         private void Move(string direction) //Moves the player to the next room
         {
             
