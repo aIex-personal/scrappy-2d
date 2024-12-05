@@ -4,4 +4,5 @@ The robot that followed the protagonist was intended to be an NPC that assisted 
 
 XNA Framework due to its light weight and availability of resources
 
-<video src='https://youtu.be/FAmaDrKhM9A' width=180/>
+
+[<img src="https://img.youtube.com/vi/FAmaDrKhM9A/maxresdefault.jpg" width="50%">](https://youtu.be/FAmaDrKhM9A)
